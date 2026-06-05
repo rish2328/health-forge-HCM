@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi import HTTPException
 from app.schemas.user_schema import RegisterRequest, LoginRequest, TokenResponse
 from app.core.database import DB_Dependencies
 from starlette import status

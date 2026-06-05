@@ -16,12 +16,12 @@ class UserService:
             if existingUser:
                 raise HTTPException( status_code = status.HTTP_409_CONFLICT, detail = "This email is already taken, Try with another email!" )
 
-            data["first_name"] = data["first_name"].strip().capitalize()
+            data["first_name"] = data["first_name"].strip().title()
             
             if data["middle_name"]:
-                data["middle_name"] = data["middle_name"].strip().capitalize()
+                data["middle_name"] = data["middle_name"].strip().title()
 
-            data["last_name"] = data["last_name"].strip().capitalize()
+            data["last_name"] = data["last_name"].strip().title()
 
             data['password'] = hash_password( data['password'] )
 
