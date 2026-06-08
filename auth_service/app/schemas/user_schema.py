@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+from datetime import datetime
 
 
 class RegisterRequest ( BaseModel ):
@@ -19,3 +20,18 @@ class LoginRequest ( BaseModel ):
 class TokenResponse ( BaseModel ):
     access_token: str
     token_type: str
+
+
+class UserResponse ( BaseModel ):
+    id: int
+    uuid: str
+    first_name: str
+    middle_name: str | None = None
+    last_name: str
+    email: str
+    phone: str | None = None
+    last_login: datetime | None = None
+    is_active: int
+
+    class Config:
+        from_attributes = True

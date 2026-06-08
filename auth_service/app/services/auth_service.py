@@ -1,11 +1,12 @@
+from starlette import status
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from app.models.user_model import UserModel
+from app.models.roles_model import RolesModel
 from app.core.security import hash_password, verify_password, create_access_token
-from starlette import status
 
 
-class UserService:
+class AuthService:
 
     @staticmethod
     def auth_register_service( db, auth_user ):
@@ -33,11 +34,11 @@ class UserService:
 
         except IntegrityError as ie:
             db.rollback()
-            raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie.orig) )
+            raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
 
         except Exception as ex:
             db.rollback()
-            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex.orig) )
+            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
 
 
     @staticmethod
@@ -54,4 +55,30 @@ class UserService:
             return auth_token
 
         except Exception as ex:
-            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex.orig) )
+            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
+
+
+    # @staticmethod
+    # def create_permission( db, permission_data):
+    #     return
+
+
+    # @staticmethod
+    # def assign_role_to_user( db, assign_data ):
+    #     return
+    
+
+    # @staticmethod
+    # def assign_permission_to_role ( db, assign_data ):
+    #     return
+    
+
+    # @staticmethod
+    # def get_user_permissions ( db, user_id ):
+    #     return
+    
+
+    # @staticmethod
+    # def get_user_roles ( db, user_id ):
+    #     return
+

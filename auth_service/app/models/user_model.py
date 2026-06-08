@@ -18,7 +18,7 @@ class UserModel ( Base ):
     phone       =   Column ( String(15), nullable = True )
     password    =   Column ( String(255), nullable = True )
     last_login  =   Column ( DateTime, nullable = True )
-    role        =   relationship ( "UserRolesModel", back_populates = "user", lazy="selectin")
+    roles       =   relationship( "UserRolesModel", back_populates="user", cascade="all, delete-orphan" )
     is_active   =   Column ( Boolean, default = True )
     created_at  =   Column ( DateTime, default = datetime.utcnow )
     updated_at  =   Column ( DateTime, default = datetime.utcnow, onupdate = datetime.utcnow )

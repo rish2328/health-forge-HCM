@@ -4,9 +4,11 @@ from passlib.context import CryptContext
 from app.core.config import settings
 from fastapi import HTTPException
 from starlette import status
+from fastapi.security import OAuth2PasswordBearer
 
 
 pwd_context = CryptContext( schemes = ["bcrypt"], deprecated = "auto" )
+oauth2Beare = OAuth2PasswordBearer( tokenUrl = settings.JWT_TOKEN_URL)
 
 
 def hash_password ( password: str ) -> str:

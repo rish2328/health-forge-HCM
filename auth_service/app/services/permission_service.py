@@ -2,8 +2,6 @@ from starlette import status
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from app.models.roles_model import RolesModel
-from app.models.user_model import UserModel
-from app.models.user_roles_model import UserRolesModel
 
 
 class RoleService:
@@ -52,7 +50,6 @@ class RoleService:
             raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
 
 
-    # UPDATE EXISTING ROLE
     @staticmethod
     def update_role ( db, role_uuid, role_data):
         try:
@@ -82,7 +79,6 @@ class RoleService:
             raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
 
 
-    # DELETE EXISTING ROLE
     @staticmethod
     def delete_role ( db, role_uuid ):
         roleExist = db.query(RolesModel).filter(RolesModel.uuid == role_uuid).first()
@@ -93,36 +89,27 @@ class RoleService:
         db.commit()
         return True
 
-
-    # ASSIGN ROLE TO USER
     @staticmethod
-    def assign_role_to_user(db, assign_data):
-        try:
-            roleExist = db.query(RolesModel).filter( RolesModel.uuid == assign_data.role_uuid ).first()
-            if not roleExist:
-                raise HTTPException( status_code = status.HTTP_404_NOT_FOUND, detail="Role Not Found!" )
+    def create_permission( db, permission_data):
+        return
 
-            userExist = db.query(UserModel).filter( UserModel.uuid == assign_data.user_uuid ).first()
-            if not userExist:
-                raise HTTPException( status_code = status.HTTP_404_NOT_FOUND, detail="User Not Found!" )
 
-            # Optional duplicate check
-            existingAssignment = db.query(UserRolesModel).filter( UserRolesModel.user_id == userExist.id, UserRolesModel.role_id == roleExist.id ).first()
+    @staticmethod
+    def assign_role_to_user( db, assign_data ):
+        return
+    
 
-            if existingAssignment:
-                raise HTTPException( status_code = status.HTTP_409_CONFLICT, detail = "Role already assigned to user!" )
+    @staticmethod
+    def assign_permission_to_role ( db, assign_data ):
+        return
+    
 
-            userRole = UserRolesModel( user_id = userExist.id, role_id = roleExist.id )
-            db.add(userRole)
-            db.commit()
-            db.refresh(userRole)
-            return userRole
+    @staticmethod
+    def get_user_permissions ( db, user_id ):
+        return
+    
 
-        except IntegrityError as ie:
-            db.rollback()
-            raise HTTPException( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
-
-        except Exception as ex:
-            db.rollback()
-            raise HTTPException( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
+    @staticmethod
+    def get_user_roles ( db, user_id ):
+        return
 
