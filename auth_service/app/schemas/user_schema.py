@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
+from uuid import UUID
 
 
 class RegisterRequest ( BaseModel ):
@@ -24,7 +25,7 @@ class TokenResponse ( BaseModel ):
 
 class UserResponse ( BaseModel ):
     id: int
-    uuid: str
+    uuid: UUID
     first_name: str
     middle_name: str | None = None
     last_name: str

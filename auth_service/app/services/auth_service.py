@@ -2,7 +2,6 @@ from starlette import status
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from app.models.user_model import UserModel
-from app.models.roles_model import RolesModel
 from app.core.security import hash_password, verify_password, create_access_token
 
 
@@ -42,7 +41,7 @@ class AuthService:
 
 
     @staticmethod
-    def auth_login_request ( db, email, password ):
+    def auth_login_service ( db, email, password ):
         try:
             authUser = db.query(UserModel).filter(UserModel.email == email).first()
             if not authUser:
@@ -62,12 +61,6 @@ class AuthService:
     # def create_permission( db, permission_data):
     #     return
 
-
-    # @staticmethod
-    # def assign_role_to_user( db, assign_data ):
-    #     return
-    
-
     # @staticmethod
     # def assign_permission_to_role ( db, assign_data ):
     #     return
@@ -76,9 +69,5 @@ class AuthService:
     # @staticmethod
     # def get_user_permissions ( db, user_id ):
     #     return
-    
 
-    # @staticmethod
-    # def get_user_roles ( db, user_id ):
-    #     return
 

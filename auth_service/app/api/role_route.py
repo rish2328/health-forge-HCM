@@ -9,7 +9,7 @@ from app.dependencies.auth_dependency import Auth_Dependency
 from app.schemas.role_schema import CreateRoleRequest, UpdateRoleRequest
 from app.schemas.user_role_schema import CreateUserRoleRequest
 
-router = APIRouter ( prefix = "/role", tags = [ "Role-Router" ] )
+router = APIRouter ( prefix = "/role", tags = [ "Role-Routes" ] )
 
 
 # GET ALL ROLE 
@@ -69,8 +69,8 @@ async def delete_role ( db: DB_Dependencies, auth: Auth_Dependency, role_uuid: s
 
 
 # ASSIGN ROLE TO USER
-@router.post ( "/assign", status_code = status.HTTP_201_CREATED )
-async def create_role ( db: DB_Dependencies, auth: Auth_Dependency, assign_req: CreateUserRoleRequest ):
+@router.post ( "/assign", status_code = status.HTTP_200_OK )
+async def assign_role_to_user ( db: DB_Dependencies, auth: Auth_Dependency, assign_req: CreateUserRoleRequest ):
     if auth is None:
         raise HTTPException( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
     

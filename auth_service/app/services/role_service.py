@@ -32,7 +32,7 @@ class RoleService:
 
             existingRole = db.query(RolesModel).filter(RolesModel.name == data["name"]).filter(RolesModel.display_name == data['display_name']).first()
             if existingRole:
-                raise HTTPException ( status_code = status.HTTP_409_CONFLICT, detail = "The Role with this name, is already created. Try with another!")
+                raise HTTPException ( status_code = status.HTTP_409_CONFLICT, detail = "The Role with this name, is already created. Try with another!" )
 
             if data["description"]:
                 data["description"] = data["description"].strip().capitalize()
@@ -63,6 +63,8 @@ class RoleService:
             roleData = role_data.dict()
             role.name = roleData["name"].lower().replace(" ", "-").replace("_", "-")
             role.display_name = roleData["display_name"].strip().title().replace("-", " ").replace("_", " ")
+            if roleData["description"]:
+                role.description = roleData["description"].strip().capitalize()
 
             existingRole = db.query(RolesModel).filter(RolesModel.name == role.name).filter(RolesModel.display_name == role.display_name).filter(RolesModel.uuid != role_uuid).first()
             if existingRole:
@@ -107,10 +109,14 @@ class RoleService:
                 raise HTTPException( status_code = status.HTTP_404_NOT_FOUND, detail="User Not Found!" )
 
             # Optional duplicate check
-            existingAssignment = db.query(UserRolesModel).filter( UserRolesModel.user_id == userExist.id, UserRolesModel.role_id == roleExist.id ).first()
+            existingAssignment = db.query(UserRolesModel).filter( UserRolesModel.user_id == userExist.id).first()
 
             if existingAssignment:
-                raise HTTPException( status_code = status.HTTP_409_CONFLICT, detail = "Role already assigned to user!" )
+                existingAssignment.role_id = roleExist.id
+                db.add(existingAssignment)
+                db.commit()
+                db.refresh(existingAssignment)
+                return existingAssignment
 
             userRole = UserRolesModel( user_id = userExist.id, role_id = roleExist.id )
             db.add(userRole)
