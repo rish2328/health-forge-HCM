@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
@@ -16,4 +17,6 @@ class PermissionsModel ( Base ):
     description     =   Column ( String(255), nullable = True )
     created_at      =   Column ( DateTime, default = datetime.utcnow )
     updated_at      =   Column ( DateTime, default = datetime.utcnow, onupdate = datetime.utcnow )
+
+    roles = relationship( "RolePermissionsModel", back_populates="permission", cascade="all, delete-orphan" )
 

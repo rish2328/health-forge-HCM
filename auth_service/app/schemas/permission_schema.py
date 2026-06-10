@@ -29,3 +29,6 @@ class PermissionResponse ( BaseModel ):
     display_name: str
     group_name: str
     description: str | None = None
+
+    class Config:
+        from_attributes = True

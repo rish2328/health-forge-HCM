@@ -16,4 +16,6 @@ class RolesModel ( Base ):
     description     =   Column ( String(255), nullable = True )
     created_at      =   Column ( DateTime, default = datetime.utcnow )
     updated_at      =   Column ( DateTime, default = datetime.utcnow, onupdate = datetime.utcnow )
-    permissions     =   relationship( "RolePermissionsModel", back_populates="role" )
+
+    users = relationship( "UserRolesModel", back_populates="role", cascade="all, delete-orphan" )
+    permissions = relationship( "RolePermissionsModel", back_populates="role", cascade="all, delete-orphan" )

@@ -4,13 +4,13 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from fastapi import HTTPException, Depends
 from app.models.user_model import UserModel
-from app.core.security import oauth2Beare, verify_access_token
+from common_service.security import verify_access_token, oauth2Bearer
 
 
 class AuthDependency:
 
     @staticmethod
-    def get_current_user ( db: Annotated[ Session, Depends(get_db)], token: Annotated[str, Depends(oauth2Beare)] ):
+    def get_current_user ( db: Annotated[ Session, Depends(get_db)], token: Annotated[str, Depends(oauth2Bearer)] ):
         payload = verify_access_token( token )
 
         user_id = payload.get('user_id')

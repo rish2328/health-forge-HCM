@@ -2,7 +2,8 @@ from starlette import status
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from app.models.user_model import UserModel
-from app.core.security import hash_password, verify_password, create_access_token
+from app.core.security import hash_password, verify_password
+from common_service.security import create_access_token
 
 
 class AuthService:
@@ -50,7 +51,7 @@ class AuthService:
             if not verify_password ( password, authUser.password ):
                 raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Invalid credentials, Try with correct one!")
             
-            auth_token = create_access_token({ "sub": str(authUser.id), "user_id": authUser.id, "email": authUser.email })
+            auth_token = create_access_token({ "sub": str(authUser.id), "user_id": authUser.id, "user_uuid": str(authUser.uuid), "email": authUser.email })
             return auth_token
 
         except Exception as ex:

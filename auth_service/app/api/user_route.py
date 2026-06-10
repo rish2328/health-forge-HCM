@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.schemas.user_schema import UserResponse
 from app.core.database import DB_Dependencies
 from app.dependencies.auth_dependency import Auth_Dependency
