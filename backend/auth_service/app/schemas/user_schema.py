@@ -24,6 +24,14 @@ class CreateInternalUserRequest(BaseModel):
     role: str
 
 
+class UpdateInternalUserRequest(BaseModel):
+    first_name: str
+    middle_name: str | None = None
+    last_name: str
+    email: str
+    phone: str | None = None
+
+
 class UserResponse ( BaseModel ):
     id: int
     uuid: UUID

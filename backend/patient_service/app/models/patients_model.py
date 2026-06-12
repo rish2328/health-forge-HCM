@@ -40,8 +40,6 @@ class PatientModel ( Base ):
     marital_status  =   Column ( Enum ( MaritalStatusEnum, name = "marital_status"), nullable = True )
     email           =   Column ( String(100), unique = True, nullable = True )
     phone           =   Column ( String(50), nullable = True )
-    emergency_contact_name  =   Column ( String(100), nullable = True )
-    emergency_contact_phone =   Column ( String(50), nullable = True )
     photo           =   Column ( String(255), nullable = True )
     status          =   Column ( Boolean, default = True )
     created_at      =   Column ( DateTime, default = datetime.utcnow )

@@ -11,7 +11,7 @@ class AuthDependency:
     def get_current_user( token: str = Depends(oauth2Bearer) ):
         payload = verify_access_token ( token )
         user_uuid = payload["user_uuid"]
-        user = AuthServiceClient.get_user ( user_uuid, token )
+        user = AuthServiceClient.get_user_from_auth_service ( user_uuid, token )
 
         return { "token": token, "user": user }
 

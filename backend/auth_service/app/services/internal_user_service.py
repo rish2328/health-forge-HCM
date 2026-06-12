@@ -71,3 +71,48 @@ class InternalUserService:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))
 
+
+    # DELETE EXISTING USER BY USER UUID
+    @staticmethod
+    def delete_internal_user_by_user_uuid(db, user_uuid):
+        try:
+            user_exist = db.query(UserModel).filter(UserModel.uuid == user_uuid).first()
+            if not user_exist:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found!")
+
+            db.delete(user_exist)
+            db.commit()
+            return True
+
+        except IntegrityError as ie:
+            db.rollback()
+            raise HTTPException( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
+
+        except Exception as ex:
+            db.rollback()
+            raise HTTPException( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
+
+
+    # UPDATE EXISTING USER BY USER UUID AND USER DATA
+    @staticmethod
+    def update_internal_user_by_user_uuid ( db, user_uuid, user_req ):
+        user_exist = db.query(UserModel).filter(UserModel.uuid == user_uuid).first()
+        if not user_exist:
+            raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "User not found!" )
+
+        user_data = user_req.dict()
+        user_exist.first_name   =   user_data["first_name"].strip().title()
+
+        if user_data["middle_name"]:
+            user_exist.middle_name  =   user_data["middle_name"].strip().title()
+
+        user_exist.last_name    =   user_data["last_name"].strip().title()
+        user_exist.email        =   user_data["email"]
+        user_exist.phone        =   user_data["phone"]
+
+        db.add(user_exist)
+        db.commit()
+        db.refresh(user_exist)
+        return user_exist
+
+
