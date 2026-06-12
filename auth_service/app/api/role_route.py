@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from app.core.database import DB_Dependencies
 from app.schemas.role_schema import RoleResponse
 from app.services.role_service import RoleService
-from app.schemas.response_schema import ApiResponse
+from common_service.response_schema import ApiResponse
 from app.dependencies.auth_dependency import Auth_Dependency
 from app.schemas.role_schema import CreateRoleRequest, UpdateRoleRequest
 from app.schemas.user_role_schema import CreateUserRoleRequest

@@ -52,7 +52,11 @@ class AuthService:
                 raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Invalid credentials, Try with correct one!")
             
             auth_token = create_access_token({ "sub": str(authUser.id), "user_id": authUser.id, "user_uuid": str(authUser.uuid), "email": authUser.email })
-            return auth_token
+            return {
+                "access_token": auth_token,
+                "token_type": "Bearer",
+                "user": authUser
+            }
 
         except Exception as ex:
             raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )

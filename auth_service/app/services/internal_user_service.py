@@ -10,25 +10,11 @@ from app.core.security import hash_password
 
 
 
-class UserService:
-
-    # GET LIST OF ALL USERS
-    @staticmethod
-    def get_all_users ( db ):
-        all_users = ( db.query(UserModel)
-                    .options(
-                        selectinload(UserModel.roles)
-                            .selectinload(UserRolesModel.role)
-                            .selectinload(RolesModel.permissions)
-                            .selectinload(RolePermissionsModel.permission)
-                    )
-                    .all() )
-        return all_users
-
+class InternalUserService:
 
     # GET USER BY USER UUID
     @staticmethod
-    def get_user_by_user_uuid ( db, user_uuid ):
+    def get_internal_user_by_user_uuid ( db, user_uuid ):
         user = (db.query(UserModel).filter(UserModel.uuid == user_uuid)
                 .options(
                     selectinload(UserModel.roles)
@@ -42,9 +28,10 @@ class UserService:
 
     # CREATE USER
     @staticmethod
-    def create_user(db, user_data ):
+    def create_internal_user(db, user_data ):
         try:
             data = user_data.dict()
+            role_name = data.pop("role")
 
             existingUser = db.query(UserModel).filter(UserModel.email == data["email"]).first()
             if existingUser:
@@ -57,10 +44,21 @@ class UserService:
 
             data["last_name"] = data["last_name"].strip().title()
 
-            data['password'] = hash_password('12345678')
+            data['password'] = hash_password(data["password"])
 
             user = UserModel(**data)
             db.add(user)
+            db.flush()
+
+            # FINDING ROLE ON ROLES TABLE
+            role = db.query(RolesModel).filter( RolesModel.name == role_name ).first()
+            if not role:
+                raise HTTPException( status_code = status.HTTP_404_NOT_FOUND, detail = f"Role '{role_name}' not found" )
+
+            # ASSIGNING ROLE TO SPECIFIC USER
+            user_role = UserRolesModel( user_id = user.id, role_id = role.id )
+            db.add(user_role)
+
             db.commit()
             db.refresh(user)
             return user

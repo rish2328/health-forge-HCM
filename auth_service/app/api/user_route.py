@@ -5,7 +5,8 @@ from app.dependencies.auth_dependency import Auth_Dependency
 from starlette import status
 from app.services.user_service import UserService
 from app.utils.response import success, error
-from app.schemas.response_schema import ApiResponse
+from common_service.response_schema import ApiResponse
+from app.schemas.user_schema import UserRequest
 
 router = APIRouter ( prefix = "/user", tags = [ "User-Routes" ] )
 
@@ -23,7 +24,7 @@ async def get_all_users ( db: DB_Dependencies, auth: Auth_Dependency ):
     return success ( " All Users retrieve successfully", users )
 
 
-# GET ROLE BY ROLE UUID
+# GET USER BY USER UUID
 @router.get( "/{user_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[UserResponse] )
 async def get_user_by_user_uuid ( db: DB_Dependencies, auth: Auth_Dependency, user_uuid: str ):
     if not auth:
@@ -34,3 +35,23 @@ async def get_user_by_user_uuid ( db: DB_Dependencies, auth: Auth_Dependency, us
         raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "No Role Found!" )
     
     return success("User Found", user)
+
+
+# CREATE USER
+@router.post( '/', status_code = status.HTTP_201_CREATED, response_model=ApiResponse[UserResponse] )
+async def create_user ( db: DB_Dependencies, auth: Auth_Dependency, user_data: UserRequest ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized Access!" )
+
+    user = UserService.create_user ( db, user_data )
+    return success( "User has been created successfully", user )
+
+
+# CREATE INTERNAL USER FROM PATIENT SERVICE
+@router.post( '/', status_code = status.HTTP_201_CREATED, response_model=ApiResponse[UserResponse] )
+async def create_user ( db: DB_Dependencies, auth: Auth_Dependency, user_data: UserRequest ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized Access!" )
+
+    user = UserService.create_user ( db, user_data )
+    return success( "User has been created successfully", user )

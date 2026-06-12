@@ -5,7 +5,7 @@ from uuid import UUID
 from app.schemas.user_role_schema import UserRoleResponse
 
 
-class RegisterRequest ( BaseModel ):
+class UserRequest ( BaseModel ):
     first_name: str
     middle_name: Optional[str] = None
     last_name: str
@@ -14,14 +14,14 @@ class RegisterRequest ( BaseModel ):
     phone: Optional[str] = None
 
 
-class LoginRequest ( BaseModel ):
-    email: EmailStr
+class CreateInternalUserRequest(BaseModel):
+    first_name: str
+    middle_name: str | None = None
+    last_name: str
+    email: str
     password: str
-
-
-class TokenResponse ( BaseModel ):
-    access_token: str
-    token_type: str
+    phone: str | None = None
+    role: str
 
 
 class UserResponse ( BaseModel ):

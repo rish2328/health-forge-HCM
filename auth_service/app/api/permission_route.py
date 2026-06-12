@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from starlette import status
 from app.core.database import DB_Dependencies
 from app.schemas.permission_schema import CreatePermissionRequest, UpdatePermissionRequest, PermissionResponse
-from app.schemas.response_schema import ApiResponse
+from common_service.response_schema import ApiResponse
 from app.dependencies.auth_dependency import Auth_Dependency
 from app.services.permission_service import PermissionService
 from app.utils.response import success
@@ -37,7 +37,7 @@ async def get_permission_by_permission_uuid ( db: DB_Dependencies, auth: Auth_De
     return success ( "Permission Found", permission )
 
 
-# GET PERMISSION BY PERMISSION_UUID
+# CREATE PERMISSION
 @router.post( '/', status_code = status.HTTP_201_CREATED, response_model=ApiResponse[PermissionResponse] )
 async def create_permission ( db: DB_Dependencies, auth: Auth_Dependency, permission_data: CreatePermissionRequest ):
     if not auth:
