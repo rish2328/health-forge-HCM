@@ -11,15 +11,20 @@ from app.utils.response import success
 router = APIRouter ( prefix = "/patient", tags = [ "Patient Routes" ] )
 
 
-# @router.get ( "/", status_code = status.HTTP_200_OK )
-# async def get_all_patients ( db: DB_Dependencies, )
+@router.get ( "/", status_code = status.HTTP_200_OK, response_model = ApiResponse[list[PatientResponse]] )
+async def get_all_patients ( db: DB_Dependencies, auth: Auth_Dependency ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    patient = PatientService.get_all_patients( db )
+    return success ( "Retrieve all Patient successfully!", patient )
 
 
 # CREATE USER
 @router.post( '/', status_code = status.HTTP_201_CREATED, response_model=ApiResponse[PatientResponse] )
 async def create_user ( db: DB_Dependencies, auth: Auth_Dependency, patient_data: CreatePatientRequest ):
     if not auth:
-        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = auth )
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
 
     patient = PatientService.create_patient ( db, patient_data, auth["token"] )
     return success( "Patient has been created successfully", patient )

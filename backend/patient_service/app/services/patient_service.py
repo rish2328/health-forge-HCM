@@ -4,6 +4,7 @@ from starlette import status
 from sqlalchemy.exc import IntegrityError
 from app.utils.common import generate_patient_mrn
 from app.dependencies.auth_service_client import AuthServiceClient
+from sqlalchemy.orm import selectinload
 
 
 class PatientService:
@@ -11,7 +12,16 @@ class PatientService:
     # GET ALL PATIENT
     @staticmethod
     def get_all_patients ( db ):
-        all_patients = db.query(PatientModel).all()
+        all_patients = ( db.query(PatientModel)
+                        .options(
+                            selectinload(PatientModel.addresses),
+                            selectinload(PatientModel.contact),
+                            selectinload(PatientModel.document),
+                            selectinload(PatientModel.guardians),
+                            selectinload(PatientModel.insurances),
+                            selectinload(PatientModel.notes)
+                        )
+                        .all() )
         return all_patients
 
 

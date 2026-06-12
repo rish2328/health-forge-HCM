@@ -16,8 +16,7 @@ class UserService:
     @staticmethod
     def get_all_users ( db ):
         all_users = ( db.query(UserModel)
-                    .options(
-                        selectinload(UserModel.roles)
+                    .options( selectinload(UserModel.roles)
                             .selectinload(UserRolesModel.role)
                             .selectinload(RolesModel.permissions)
                             .selectinload(RolePermissionsModel.permission)

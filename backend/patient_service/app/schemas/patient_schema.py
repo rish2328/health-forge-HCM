@@ -2,6 +2,7 @@ from uuid import UUID
 from datetime import date
 from typing import Optional
 from pydantic import BaseModel
+from app.schemas.patient_address_schema import PatientAddressResponse
 
 
 class CreatePatientRequest ( BaseModel ):
@@ -34,3 +35,10 @@ class PatientResponse ( BaseModel ):
     emergency_contact_name: str
     emergency_contact_phone: str
     photo: str | None = None
+
+    addresses: list[PatientAddressResponse] = []
+    # contact: list[PatientContactResponse] = []
+    # document: list[PatientDocumentResponse] = []
+    # guardians: list[PatientGuardianResponse] = []
+    # insurances: list[PatientInsuranceResponse] = []
+    # notes: list[PatientNoteResponse] = []
