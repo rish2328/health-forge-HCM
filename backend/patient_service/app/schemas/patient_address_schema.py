@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class CreatePatientAddress ( BaseModel ):
+class CreatePatientAddressRequest ( BaseModel ):
     patient_id: int
     address_line_1: str
     address_line_2: Optional[str] = None
@@ -13,7 +13,7 @@ class CreatePatientAddress ( BaseModel ):
     address_type: str
 
 
-class UpdatePatientAddress ( BaseModel ):
+class UpdatePatientAddressRequest ( BaseModel ):
     patient_id: int
     address_line_1: str
     address_line_2: Optional[str] = None

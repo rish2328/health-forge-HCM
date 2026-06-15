@@ -2,30 +2,30 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class CreatePatientContactRequest ( BaseModel ):
+class CreatePatientGuardianRequest ( BaseModel ):
     patient_id: int
     name: str
     relation: str
     phone: str
     email: Optional[str] = None
-    is_emergency_contact: bool
+    address: str
 
 
-class UpdatePatientContactRequest ( BaseModel ):
+class UpdatePatientGuardianRequest ( BaseModel ):
     patient_id: int
     name: str
     relation: str
     phone: str
     email: Optional[str] = None
-    is_emergency_contact: bool
+    address: str
 
 
-class PatientContactResponse ( BaseModel ):
+class PatientGuardianResponse ( BaseModel ):
     name: str
     relation: str
     phone: str
     email: Optional[str] = None
-    is_emergency_contact: bool
+    address: str
 
     class Config:
         from_attributes = True

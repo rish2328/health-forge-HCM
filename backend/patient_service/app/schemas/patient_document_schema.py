@@ -2,14 +2,14 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class CreatePatientDocument ( BaseModel ):
+class CreatePatientDocumentRequest ( BaseModel ):
     patient_id: int
     document_type: str
     file_name: str
     file_path: str
 
 
-class UpdatePatientDocument ( BaseModel ):
+class UpdatePatientDocumentRequest ( BaseModel ):
     patient_id: int
     document_type: str
     file_name: str
