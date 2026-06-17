@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from starlette import status
 from common_service.response_schema import ApiResponse
-from app.schemas.patient_address_schema import PatientAddressResponse, CreatePatientAddressRequest
+from app.schemas.patient_address_schema import PatientAddressResponse, CreatePatientAddressRequest, UpdatePatientAddressRequest
 from app.core.database import DB_Dependencies
 from app.dependencies.auth_dependency import Auth_Dependency
 from app.services.patient_address_service import PatientAddressService
@@ -45,11 +45,23 @@ async def create_address ( db: DB_Dependencies, auth: Auth_Dependency, address_r
 
 
 # DELETE ADDRESS
-# @router.delete( "/{address_id}/{patient_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[PatientAddressResponse] )
-# async def delete_address ( db: DB_Dependencies, auth: Auth_Dependency, address_id: str, patient_uuid: str ):
-#     return
+@router.delete( "/{address_id}/{patient_uuid}", status_code = status.HTTP_200_OK )
+async def delete_address ( db: DB_Dependencies, auth: Auth_Dependency, address_id: int, patient_uuid: str ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    address = PatientAddressService.delete_address( db, patient_uuid, address_id )
+    return success( "Patient Address has been deleted successfully", address )
 
 
+# UDPATE ADDRESS
+@router.put( "/{address_id}/{patient_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[PatientAddressResponse] )
+async def update_address ( db: DB_Dependencies, auth: Auth_Dependency, address_id: int, patient_uuid: str, address_req: UpdatePatientAddressRequest ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    address = PatientAddressService.update_address ( db, patient_uuid, address_id, address_req )
+    return success("Patient Address has been updated successfully", address)
 
 
 

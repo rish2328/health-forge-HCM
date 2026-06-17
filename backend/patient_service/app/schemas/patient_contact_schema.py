@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class CreatePatientContactRequest ( BaseModel ):
-    patient_id: int
+    patient_uuid: str
     name: str
     relation: str
     phone: str
@@ -12,7 +12,7 @@ class CreatePatientContactRequest ( BaseModel ):
 
 
 class UpdatePatientContactRequest ( BaseModel ):
-    patient_id: int
+    patient_uuid: str
     name: str
     relation: str
     phone: str

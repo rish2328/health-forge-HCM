@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class CreatePatientAddressRequest ( BaseModel ):
-    patient_id: int
+    patient_uuid: str
     address_line_1: str
     address_line_2: Optional[str] = None
     city: str
@@ -14,7 +14,7 @@ class CreatePatientAddressRequest ( BaseModel ):
 
 
 class UpdatePatientAddressRequest ( BaseModel ):
-    patient_id: int
+    patient_uuid: str
     address_line_1: str
     address_line_2: Optional[str] = None
     city: str
@@ -25,6 +25,7 @@ class UpdatePatientAddressRequest ( BaseModel ):
 
 
 class PatientAddressResponse ( BaseModel ):
+    id: int
     address_line_1: str
     address_line_2: Optional[str] = None
     city: str

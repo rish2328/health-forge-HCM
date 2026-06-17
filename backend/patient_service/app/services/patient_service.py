@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app.utils.common import generate_patient_mrn
 from app.dependencies.auth_service_client import AuthServiceClient
 from sqlalchemy.orm import selectinload
+from app.helpers.patient_helper import PatientHelper
 
 
 class PatientService:
@@ -28,18 +29,7 @@ class PatientService:
     # GET PATIENT BY PATIENT UUID
     @staticmethod
     def get_patient_by_patient_uuid ( db, patient_uuid ):
-        patient = ( db.query(PatientModel)
-                    .options(
-                        selectinload(PatientModel.addresses),
-                        selectinload(PatientModel.contact),
-                        selectinload(PatientModel.document),
-                        selectinload(PatientModel.guardians),
-                        selectinload(PatientModel.insurances),
-                        selectinload(PatientModel.notes)
-                    )
-                    .filter( PatientModel.uuid == patient_uuid )
-                    .first()
-                )
+        patient = PatientHelper.get_patient_by_patient_uuid ( db, patient_uuid )
         return patient
 
 
@@ -95,14 +85,14 @@ class PatientService:
 
         except Exception as ex:
             db.rollback()
-            raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ex) )
+            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
 
 
     # DELETE PATIENT
     @staticmethod
     def delete_patient ( db, patient_uuid, token ):
         try:
-            patientExist = db.query(PatientModel).filter(PatientModel.uuid == patient_uuid).first()
+            patientExist = PatientHelper.get_patient_by_patient_uuid ( db, patient_uuid )
             if not patientExist:
                 raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Patient Not Found!")
 
@@ -119,14 +109,14 @@ class PatientService:
 
         except Exception as ex:
             db.rollback()
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ex))
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))
 
 
     # UPDATE PATIENT
     @staticmethod
     def update_patient ( db, patient_uuid, patient_req, token ):
         try:
-            patient = db.query(PatientModel).filter(PatientModel.uuid == patient_uuid).first()
+            patient = PatientHelper.get_patient_by_patient_uuid( db, patient_uuid )
             if not patient:
                 raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Patient Not Found!" )
 
@@ -179,7 +169,7 @@ class PatientService:
 
         except Exception as ex:
             db.rollback()
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ex))
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))
 
 
 
