@@ -125,3 +125,8 @@
                 →   http://localhost:8002/patient/address/1/6c10d3be-12356-43dd-7896-3fc90a768afb
 ```
 
+*** PATIENT CONTACT SECTION API ENDPOINT ***
+```
+
+```
+
