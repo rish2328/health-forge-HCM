@@ -207,3 +207,99 @@ DELETE /patient/address/{address_id}/{patient_uuid}
 DELETE http://localhost:8002/patient/address/1/6c10d3be-12356-43dd-7896-3fc90a768afb
 ```
 ---
+
+# Patient Contact APIs
+
+## 1. Get All Contacts of a Patient
+Retrieve all contacts associated with a patient.
+
+### Request
+```http
+GET /patient/contact/{patient_uuid}
+```
+### Example
+```http
+GET http://localhost:8002/patient/contact/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+### Path Parameters
+| Parameter    | Type | Description               |
+| ------------ | ---- | ------------------------- |
+| patient_uuid | UUID | Patient unique identifier |
+---
+
+## 2. Get Contact By Contact ID
+Retrieve a specific contact of a patient.
+
+### Request
+```http
+GET /patient/contact/{contact_id}/{patient_uuid}
+```
+### Example
+```http
+GET http://localhost:8002/patient/contact/1/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+### Path Parameters
+| Parameter    | Type    | Description  |
+| ------------ | ------- |--------------|
+| contact_id   | Integer | Contact ID   |
+| patient_uuid | UUID    | Patient UUID |
+---
+
+## 3. Create Contact
+Create a new patient contact.
+
+### Request
+```http
+POST /patient/contact
+```
+### Request Body
+```json
+{
+    "patient_uuid": "6c10d3be-12356-43dd-7896-3fc90a768afb",
+    "name": "Thomas Johnson",
+    "relation": "father",
+    "phone": "9874563210",
+    "email": "test.patient@mailinator.com",
+    "is_emergency_contact": 1
+}
+```
+---
+
+## 4. Update Contact
+Update an existing patient contact.
+
+### Request
+```http
+PUT /patient/contact/{contact_id}/{patient_uuid}
+```
+### Example
+```http
+PUT http://localhost:8002/patient/contact/1/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+### Request Body
+```json
+{
+    "patient_uuid": "6c10d3be-12356-43dd-7896-3fc90a768afb",
+    "name": "Thomas Johnson",
+    "relation": "father",
+    "phone": "9874563210",
+    "email": "test.patient@mailinator.com",
+    "is_emergency_contact": 1
+}
+```
+---
+
+## 5. Delete Contact
+Delete a patient contact.
+
+### Request
+```http
+DELETE /patient/contact/{contact_id}/{patient_uuid}
+```
+### Example
+```http
+DELETE http://localhost:8002/patient/contact/1/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+---
+
+# Patient Insurance APIs

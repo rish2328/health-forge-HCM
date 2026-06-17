@@ -7,9 +7,7 @@ from app.dependencies.auth_dependency import Auth_Dependency
 from app.services.patient_service import PatientService
 from app.utils.response import success
 
-
 router = APIRouter ( prefix = "/patient", tags = [ "Patient Routes" ] )
-
 
 # GET ALL PATIENTS
 @router.get ( "/", status_code = status.HTTP_200_OK, response_model = ApiResponse[list[PatientResponse]] )
@@ -33,7 +31,7 @@ async def get_patient_by_patient_uuid ( db: DB_Dependencies, auth: Auth_Dependen
 
 # CREATE PATIENT
 @router.post( '/', status_code = status.HTTP_201_CREATED, response_model=ApiResponse[PatientResponse] )
-async def create_user ( db: DB_Dependencies, auth: Auth_Dependency, patient_data: CreatePatientRequest ):
+async def create_patient ( db: DB_Dependencies, auth: Auth_Dependency, patient_data: CreatePatientRequest ):
     if not auth:
         raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
 

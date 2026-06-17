@@ -4,7 +4,6 @@ from app.models.patient_addresses_model import PatientAddressModel
 from starlette import status
 from app.helpers.patient_helper import PatientHelper
 from app.helpers.patient_address_helper import PatientAddressHelper
-from app.schemas.patient_address_schema import CreatePatientAddressRequest, UpdatePatientAddressRequest
 
 
 class PatientAddressService:

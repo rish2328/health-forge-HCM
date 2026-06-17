@@ -7,12 +7,7 @@ from app.dependencies.auth_dependency import Auth_Dependency
 from app.services.patient_address_service import PatientAddressService
 from app.utils.response import success
 
-
-
-
-
-router = APIRouter ( prefix = "/patient/address", tags = [ "Patient Routes" ] )
-
+router = APIRouter ( prefix = "/patient/address", tags = [ "Patient Address Routes" ] )
 
 # GET PATIENT ALL ADDRESSES ROUTE
 @router.get( "/{patient_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[list[PatientAddressResponse]])

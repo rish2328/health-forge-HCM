@@ -21,6 +21,7 @@ class UpdatePatientContactRequest ( BaseModel ):
 
 
 class PatientContactResponse ( BaseModel ):
+    id: int
     name: str
     relation: str
     phone: str
