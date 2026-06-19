@@ -3,7 +3,7 @@ from datetime import date
 
 
 class CreatePatientInsuranceRequest ( BaseModel ):
-    patient_id: int
+    patient_uuid: str
     provider_name: str
     policy_number: str
     group_number: str
@@ -13,7 +13,7 @@ class CreatePatientInsuranceRequest ( BaseModel ):
 
 
 class UpdatePatientInsuranceRequest ( BaseModel ):
-    patient_id: int
+    patient_uuid: str
     provider_name: str
     policy_number: str
     group_number: str
@@ -23,6 +23,7 @@ class UpdatePatientInsuranceRequest ( BaseModel ):
 
 
 class PatientInsuranceResponse ( BaseModel ):
+    id: int
     provider_name: str
     policy_number: str
     group_number: str
@@ -32,3 +33,5 @@ class PatientInsuranceResponse ( BaseModel ):
 
     class Config:
         from_attributes = True
+
+

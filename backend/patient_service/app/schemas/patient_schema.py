@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel
 from app.schemas.patient_address_schema import PatientAddressResponse
 from app.schemas.patient_contact_schema import PatientContactResponse
-from app.schemas.patient_document_schema import PatientDocumentResponse
+from app.schemas.patient_insurance_schema import PatientInsuranceResponse
 
 
 class CreatePatientRequest ( BaseModel ):
@@ -50,9 +50,9 @@ class PatientResponse ( BaseModel ):
 
     addresses: list[PatientAddressResponse] = []
     contact: list[PatientContactResponse] = []
-    document: list[PatientDocumentResponse] = []
+    # document: list[PatientDocumentResponse] = []
     # guardians: list[PatientGuardianResponse] = []
-    # insurances: list[PatientInsuranceResponse] = []
+    insurances: list[PatientInsuranceResponse] = []
     # notes: list[PatientNoteResponse] = []
 
     class Config:

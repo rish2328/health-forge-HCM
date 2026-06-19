@@ -303,3 +303,98 @@ DELETE http://localhost:8002/patient/contact/1/6c10d3be-12356-43dd-7896-3fc90a76
 ---
 
 # Patient Insurance APIs
+
+## 1. Get All Insurance of a Patient
+Retrieve all insurance associated with a patient.
+
+### Request
+```http
+GET /patient/insurance/{patient_uuid}
+```
+### Example
+```http
+GET http://localhost:8002/patient/insurance/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+### Path Parameters
+| Parameter    | Type | Description               |
+| ------------ | ---- | ------------------------- |
+| patient_uuid | UUID | Patient unique identifier |
+---
+
+## 2. Get Insurance By Insurance ID
+Retrieve a specific insurance of a patient.
+
+### Request
+```http
+GET /patient/insurance/{insurance_id}/{patient_uuid}
+```
+### Example
+```http
+GET http://localhost:8002/patient/insurance/1/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+### Path Parameters
+| Parameter    | Type    | Description  |
+| ------------ | ------- |--------------|
+| insurance_id   | Integer | Contact ID   |
+| patient_uuid | UUID    | Patient UUID |
+---
+
+## 3. Create Insurance
+Create a new patient insurance.
+
+### Request
+```http
+POST /patient/insurance
+```
+### Request Body
+```json
+{
+    "patient_uuid": "59a68dbc-8a9b-486a-b438-410f2c72a80a",
+    "provider_name": "Cigna",
+    "policy_number": "CIG-2026-4120",
+    "group_number": "GRP-5004",
+    "subscriber_name": "Test Subscriber",
+    "effective_date": "2026-04-10",
+    "expiry_date": "2027-04-09"
+}
+```
+---
+
+## 4. Update Insurance
+Update an existing patient insurance.
+
+### Request
+```http
+PUT /patient/insurance/{insurance_id}/{patient_uuid}
+```
+### Example
+```http
+PUT http://localhost:8002/patient/insurance/1/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+### Request Body
+```json
+{
+    "patient_uuid": "59a68dbc-8a9b-486a-b438-410f2c72a80a",
+    "provider_name": "Cigna Test",
+    "policy_number": "CIG-2026-4120",
+    "group_number": "GRP-5004",
+    "subscriber_name": "Test Subscriber",
+    "effective_date": "2026-04-10",
+    "expiry_date": "2027-04-09"
+}
+```
+---
+
+## 5. Delete Insurance
+Delete a patient insurance.
+
+### Request
+```http
+DELETE /patient/insurance/{insurance_id}/{patient_uuid}
+```
+### Example
+```http
+DELETE http://localhost:8002/patient/insurance/1/6c10d3be-12356-43dd-7896-3fc90a768afb
+```
+---
+
