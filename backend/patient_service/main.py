@@ -9,7 +9,7 @@ from app.api import patient_route, patient_address_route, patient_contact_route,
 
 
 Base.metadata.create_all ( bind = engine )
-app = FastAPI ( title = "Health Forge ( A Health Care Management System)")
+app = FastAPI ( title = "Health Forge ( A Health Care Management System )")
 
 app.include_router ( patient_route.router )
 app.include_router ( patient_address_route.router )

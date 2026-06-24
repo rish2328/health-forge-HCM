@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir poetry==$POETRY_VERSION
 
 # COPY dependencies files first ( Docker Cache Optimization )
 COPY pyproject.toml ./
-COPY poetry.lock ./
+COPY poetry-old.lock ./
 
 # INSTALL DEPENDENCIES INTO THE SYSTEM PYTHON
 RUN poetry config virtualenvs.create false \
@@ -36,6 +36,7 @@ COPY --from=Builder /usr/local /usr/local
 # COPY APPLICATION SOURCE
 COPY . .
 
-EXPOSE 8081
+EXPOSE 8002
 
-CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8081"]
+CMD [ "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8002" ]
+
