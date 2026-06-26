@@ -11,7 +11,7 @@ class Settings ( BaseSettings ):
     AUTH_SERVICE_URL: str
 
     model_config = SettingsConfigDict(
-        # env_file=BASE_DIR / ".env",
+        env_file=BASE_DIR / ".env",
         extra="ignore"
     )
 
