@@ -1,0 +1,17 @@
+version: "3.3"
+
+services: 
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        
+        container_name: health_forge_app
+        
+        ports:
+          - "5100:5173"
+        
+        volumes:
+          - "./:/app"
+        
+        restart: always

@@ -16,7 +16,7 @@ class DepartmentsModel ( Base ):
     description     =   Column ( String(100), nullable = True )
 
     code_id         =   Column ( Integer, ForeignKey ("department_codes.id") )
-    code            =   relationship("DepartmentCodesModel", back_populates = "department")
+    code            =   relationship( "DepartmentCodesModel", back_populates = "code", cascade="all, delete-orphan", lazy="selectin" )
 
     status          =   Column ( Boolean, default = True )
     created_at      =   Column ( DateTime, default = datetime.utcnow )

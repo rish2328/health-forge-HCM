@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException
 from starlette import status
 from app.core.database import DB_Dependencies
 from common_service.response_schema import ApiResponse
-from app.schemas.patient_schema import PatientResponse, CreatePatientRequest, UpdatePatientRequest
+from app.schemas.department_schema import PatientResponse, CreatePatientRequest, UpdatePatientRequest
 from app.dependencies.auth_dependency import Auth_Dependency
-from app.services.patient_service import PatientService
+from app.services.department_service import PatientService
 from app.utils.response import success
 
 router = APIRouter ( prefix = "/patient", tags = [ "Patient Routes" ] )
