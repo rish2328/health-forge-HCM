@@ -58,7 +58,7 @@ const Login = () => {
                 response.data.access_token
             );
 
-            navigate("/dashboard");
+            navigate("/");
         }
         catch (error) {
             console.log(error);
