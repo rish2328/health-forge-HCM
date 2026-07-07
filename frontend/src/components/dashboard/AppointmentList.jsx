@@ -1,210 +1,106 @@
-import {
-    Avatar,
-    Box,
-    Chip,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Divider, Paper, Typography } from "@mui/material";
 
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
-const patients = [
+const appointments = [
     {
         id: 1,
-        name: "John Doe",
-        gender: "Male",
-        phone: "9876543210",
-        status: "Active",
+        patient: "John Doe",
+        doctor: "Dr. Sarah Johnson",
+        department: "Cardiology",
+        time: "09:00 AM",
     },
     {
         id: 2,
-        name: "Emma Watson",
-        gender: "Female",
-        phone: "9876543211",
-        status: "Active",
+        patient: "Emma Watson",
+        doctor: "Dr. Robert Smith",
+        department: "Neurology",
+        time: "10:30 AM",
     },
     {
         id: 3,
-        name: "David Smith",
-        gender: "Male",
-        phone: "9876543212",
-        status: "Inactive",
-    },
-    {
-        id: 4,
-        name: "Olivia Brown",
-        gender: "Female",
-        phone: "9876543213",
-        status: "Active",
+        patient: "David Smith",
+        doctor: "Dr. Michael Lee",
+        department: "Orthopedics",
+        time: "12:00 PM",
     },
 ];
 
-function RecentPatients() {
-
+const AppointmentList = () => {
     return (
-
         <Paper
             sx={{
                 borderRadius: 4,
                 p: 3,
                 height: "100%",
-                boxShadow: "0 10px 25px rgba(0,0,0,.05)",
+                border: "1px solid #EEF2F7",
+                boxShadow: "0 8px 25px rgba(15,23,42,.06)",
             }}
         >
+        {/* Header */}
 
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={3}
-            >
+            {/* <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} > */}
+            <Box sx={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1em" }} mb={3} >
+                <Box>
+                    <Typography variant="h6" fontWeight={700}> Today's Appointments </Typography>
+                    {/* <Typography variant="body2" color="text.secondary"> Upcoming appointments </Typography> */}
+                </Box>
 
-                <Typography
-                    variant="h6"
-                    fontWeight={700}
-                >
-                    Recent Patients
-                </Typography>
-
-                <Typography
-                    color="primary"
-                    fontWeight={600}
-                    sx={{
-                        cursor: "pointer",
-                    }}
-                >
-                    View All
-                </Typography>
-
+                <Button size="small" endIcon={<ArrowForwardRoundedIcon />}> View All </Button>
             </Box>
 
-            <TableContainer>
+            {/* Table Header */}
 
-                <Table>
+            <Box sx={{ display: "grid", gridTemplateColumns: "1.6fr 1.7fr 1.2fr .9fr", pb: 1.5, borderBottom: "1px solid #E5E7EB", mb: 1 }} >
+                <Typography fontWeight={700}>Patient</Typography>
+                <Typography fontWeight={700}>Doctor</Typography>
+                <Typography fontWeight={700}>Department</Typography>
+                <Typography fontWeight={700} textAlign="right"> Time </Typography>
+            </Box>
 
-                    <TableHead>
-
-                        <TableRow>
-
-                            <TableCell>Name</TableCell>
-
-                            <TableCell>Gender</TableCell>
-
-                            <TableCell>Phone</TableCell>
-
-                            <TableCell>Status</TableCell>
-
-                            <TableCell align="center">
-                                Action
-                            </TableCell>
-
-                        </TableRow>
-
-                    </TableHead>
-
-                    <TableBody>
-
-                        {patients.map((patient) => (
-
-                            <TableRow
-                                key={patient.id}
-                                hover
+            {appointments.map((appointment, index) => (
+                <Box key={appointment.id}>
+                    <Box sx={{ display: "grid", gridTemplateColumns: "1.6fr 1.7fr 1.2fr .9fr", alignItems: "center", py: 2 }}>
+                    
+                        {/* Patient */}
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, minWidth: 180 }} >
+                            <Avatar
+                                sx={{
+                                    width: 40,
+                                    height: 40,
+                                    bgcolor: "#2563EB",
+                                    fontWeight: 700,
+                                }}
                             >
+                                {appointment.patient.charAt(0)}
+                            </Avatar>
 
-                                <TableCell>
+                            <Typography
+                                fontWeight={600}
+                                sx={{
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                {appointment.patient}
+                            </Typography>
 
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                    >
+                        </Box>
 
-                                        <Avatar
-                                            sx={{
-                                                mr: 2,
-                                                bgcolor: "#2563EB",
-                                            }}
-                                        >
-                                            {patient.name.charAt(0)}
-                                        </Avatar>
+                        {/* Doctor */}
+                        <Typography color="text.secondary" fontSize={14}> {appointment.doctor} </Typography>
 
-                                        <Typography
-                                            fontWeight={600}
-                                        >
-                                            {patient.name}
-                                        </Typography>
+                        {/* Department */}
+                        <Typography fontSize={14}>{appointment.department}</Typography>
+                        
+                        {/* Time */}
+                        <Typography textAlign="right" fontWeight={700} color="primary"> {appointment.time} </Typography>
+                    </Box>
 
-                                    </Box>
-
-                                </TableCell>
-
-                                <TableCell>
-
-                                    {patient.gender}
-
-                                </TableCell>
-
-                                <TableCell>
-
-                                    {patient.phone}
-
-                                </TableCell>
-
-                                <TableCell>
-
-                                    <Chip
-
-                                        label={patient.status}
-
-                                        color={
-                                            patient.status === "Active"
-                                                ? "success"
-                                                : "error"
-                                        }
-
-                                        size="small"
-
-                                    />
-
-                                </TableCell>
-
-                                <TableCell align="center">
-
-                                    <IconButton
-                                        color="primary"
-                                    >
-                                        <VisibilityRoundedIcon />
-                                    </IconButton>
-
-                                    <IconButton
-                                        color="warning"
-                                    >
-                                        <EditRoundedIcon />
-                                    </IconButton>
-
-                                </TableCell>
-
-                            </TableRow>
-
-                        ))}
-
-                    </TableBody>
-
-                </Table>
-
-            </TableContainer>
-
+                    {index !== appointments.length - 1 && <Divider />}
+                </Box>
+            ))}
         </Paper>
-
     );
+};
 
-}
-
-export default RecentPatients;
+export default AppointmentList;

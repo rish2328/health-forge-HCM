@@ -1,44 +1,150 @@
-import { Box, Typography } from "@mui/material";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import {
+    Box,
+    Typography,
+    Avatar,
+} from "@mui/material";
+
+import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 
 import AppCard from "./AppCard";
 
-const StatCard = ({ title, value, icon, color, growth = "+12%" }) => {
+function StatCard({
+    title,
+    value,
+    icon,
+    color,
+    growth = "+12%",
+}) {
+
     return (
-        <AppCard sx={{ height:190, display:"flex", alignItems:"center" }} >
-            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" >
-                <Box>
-                    <Typography color="text.secondary" fontSize={14} > {title} </Typography>
-                    <Typography variant="h3" mt={1} fontWeight={700} > {value} </Typography>
 
-                    <Box display="flex" alignItems="center" mt={1} >
-                        <TrendingUpIcon
-                            sx={{
-                                color: "#16A34A",
-                                fontSize: 18,
-                                mr: .5,
-                            }}
-                        />
+        <AppCard
+            sx={{
+                height: 145,
+                transition: ".3s",
 
-                        <Typography fontSize={13} color="#16A34A" > {growth} </Typography>
-                    </Box>
-                </Box>
+                "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 15px 30px rgba(0,0,0,.08)",
+                },
+            }}
+        >
+
+            <Box
+                sx={{
+                    height: "100%",
+                    p: 2.5,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                }}
+            >
+
+                {/* Header */}
 
                 <Box
                     sx={{
-                        width: 70,
-                        height: 70,
-                        borderRadius: "50%",
-                        bgcolor: color,
                         display: "flex",
-                        justifyContent: "center",
+                        justifyContent: "space-between",
                         alignItems: "center",
-                        color: "#fff",
                     }}
-                > {icon} </Box>
+                >
+
+                    <Typography
+                        sx={{
+                            fontSize: 16,
+                            fontWeight: 700,
+                            color: "#6B7280",
+                        }}
+                    >
+                        {title}
+                    </Typography>
+
+                    <Avatar
+                        sx={{
+                            width: 44,
+                            height: 44,
+                            bgcolor: `${color}15`,
+                            color: color,
+
+                            "& svg": {
+                                fontSize: 22,
+                            },
+                        }}
+                    >
+                        {icon}
+                    </Avatar>
+
+                </Box>
+
+                {/* Value */}
+
+                <Box
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
+
+                    <Typography
+                        sx={{
+                            fontSize: 34,
+                            fontWeight: 700,
+                            color: "#111827",
+                            lineHeight: 1,
+                        }}
+                    >
+                        {value}
+                    </Typography>
+
+                </Box>
+
+                {/* Footer */}
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
+
+                    <TrendingUpRoundedIcon
+                        sx={{
+                            color: "#22C55E",
+                            fontSize: 18,
+                            mr: .5,
+                        }}
+                    />
+
+                    <Typography
+                        sx={{
+                            color: "#22C55E",
+                            fontWeight: 700,
+                            fontSize: 14,
+                        }}
+                    >
+                        {growth}
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            ml: .7,
+                            color: "#94A3B8",
+                            fontSize: 13,
+                        }}
+                    >
+                        vs last month
+                    </Typography>
+
+                </Box>
+
             </Box>
+
         </AppCard>
+
     );
+
 }
 
 export default StatCard;
