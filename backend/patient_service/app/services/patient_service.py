@@ -22,6 +22,7 @@ class PatientService:
                             selectinload(PatientModel.insurances),
                             selectinload(PatientModel.notes)
                         )
+                         .order_by(PatientModel.id.desc())
                         .all() )
         return all_patients
 

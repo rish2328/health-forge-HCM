@@ -12,8 +12,8 @@ const PatientInformation = () => {
                 {/* First Name */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="first_name" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} label="First Name" fullWidth required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} label="First Name" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -21,8 +21,8 @@ const PatientInformation = () => {
                 {/* Middle Name */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="middle_name" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} label="Middle Name" fullWidth />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} label="Middle Name" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -30,8 +30,8 @@ const PatientInformation = () => {
                 {/* Last Name */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="last_name" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} label="Last Name" fullWidth required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} label="Last Name" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -39,9 +39,9 @@ const PatientInformation = () => {
                 {/* Gender */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="gender" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} select label="Gender" fullWidth required>
-                                <MenuItem value="">Select Gender</MenuItem>
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} select label="Gender" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message}>
+                                <MenuItem value="" disabled >Select Gender</MenuItem>
                                 <MenuItem value="Male">Male</MenuItem>
                                 <MenuItem value="Female">Female</MenuItem>
                                 <MenuItem value="Other">Other</MenuItem>
@@ -53,16 +53,17 @@ const PatientInformation = () => {
                 {/* DOB */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="dob" control={control} autoComplete="off"
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <TextField
                                 {...field}
                                 type="date"
                                 label="Date of Birth"
-                                fullWidth
-                                required
+                                fullWidth                                
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                error={!!fieldState.error}
+                                helperText={fieldState.error?.message}
                             />
                         )}
                     />
@@ -71,9 +72,9 @@ const PatientInformation = () => {
                 {/* Blood Group */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="blood_group" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} select label="Blood Group" fullWidth>
-                                <MenuItem value="">Select Blood Group</MenuItem>
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} select label="Blood Group" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message}>
+                                <MenuItem value="" disabled >Select Blood Group</MenuItem>
                                 <MenuItem value="A+">A+</MenuItem>
                                 <MenuItem value="A-">A-</MenuItem>
                                 <MenuItem value="B+">B+</MenuItem>
@@ -90,9 +91,9 @@ const PatientInformation = () => {
                 {/* Marital Status */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="marital_status" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} select label="Marital Status" fullWidth>
-                                <MenuItem value="">Select Status</MenuItem>
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} select label="Marital Status" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message}>
+                                <MenuItem value="" disabled >Select Status</MenuItem>
                                 <MenuItem value="Single">Single</MenuItem>
                                 <MenuItem value="Married">Married</MenuItem>
                                 <MenuItem value="Divorced">Divorced</MenuItem>
@@ -105,8 +106,8 @@ const PatientInformation = () => {
                 {/* Email */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="email" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} type="email" label="Email" fullWidth />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} type="email" label="Email" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -114,8 +115,8 @@ const PatientInformation = () => {
                 {/* Phone */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="phone" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} label="Phone" fullWidth />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} label="Phone" fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>

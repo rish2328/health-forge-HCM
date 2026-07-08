@@ -6,6 +6,7 @@ from app.services.auth_service import AuthService
 from app.utils.response import success, error
 from common_service.response_schema import ApiResponse
 from app.middleware.rate_limit_middleware import RateLimiter
+from app.dependencies.auth_dependency import Auth_Dependency
 
 router = APIRouter ( prefix = "/auth", tags = [ "Auth-Router" ] )
 
@@ -28,3 +29,8 @@ async def auth_login ( db: DB_Dependencies, auth_req: LoginRequest ):
     auth_info = AuthService.auth_login_service ( db, auth_req.email, auth_req.password )
     return success ( "User logged in successfully", auth_info )
 
+
+
+@router.get("/verify-token")
+async def auth_verify_token(auth: Auth_Dependency):
+    return success( "Token is valid", { "user_id": auth.id, "email": auth.email, "is_valid": True } );

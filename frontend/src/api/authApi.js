@@ -5,3 +5,7 @@ export const loginUser = async (payload) => {
 
     return response.data;
 };
+
+export const verifyToken = () => {
+    return api.get("/auth/verify-token");
+};

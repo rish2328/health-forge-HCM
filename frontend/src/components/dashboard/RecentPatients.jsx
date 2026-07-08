@@ -64,7 +64,7 @@ const RecentPatients = () => {
 
             <Box sx={{ display:"flex", alignItems:"center", justifyContent:"space-between" }} mb={3} >
                 <Box>
-                    <Typography variant="h6" fontWeight={700}> Recent Patients </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 700 }}> Recent Patients </Typography>
                     {/* <Typography variant="body2" color="text.secondary"> Last 3 registered patients </Typography> */}
                 </Box>
 

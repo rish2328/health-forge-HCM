@@ -1,6 +1,7 @@
 import AppRoutes from "./routes/AppRoutes";
 
-function App() {
+const App = () => {
+    
     return <AppRoutes />;
 }
 

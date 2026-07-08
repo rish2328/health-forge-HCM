@@ -14,7 +14,6 @@ app = FastAPI ( title = "Health Forge ( A Health Care Management System )")
 origins = [
     "http://localhost:5100",
 ]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

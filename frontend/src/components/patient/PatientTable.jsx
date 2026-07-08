@@ -23,11 +23,11 @@ const PatientTable = ({
         <Paper elevation={0} sx={{ borderRadius: 3, border: "1px solid #E5E7EB", overflow: "hidden" }} >
             {/* Header */}
             <Stack direction="row" sx={{ px: 3, py: 2, borderBottom: "1px solid #E5E7EB", alignItems: "baseline", justifyContent: "space-between" }} >
-                <Typography variant="h6" fontWeight={600} >
+                <Typography variant="h6" sx={{ fontWeight:"600" }} >
                     {" "}
                     Patient List{" "}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ fontWeight:"600" }}>
                     {" "}
                     Total Patients : {totalCount || patients.length}{" "}
                 </Typography>
@@ -74,7 +74,7 @@ const PatientTable = ({
 
                         {/* Data */}
                         {!loading &&
-                        patients.map((patient) => (
+                        patients.slice( page * rowsPerPage, page * rowsPerPage + rowsPerPage ).map((patient) => (
                             <TableRow key={patient.uuid} hover>
                                 <TableCell>
                                     <Stack direction="row" spacing={2} sx={{alignItems:"center"}}>

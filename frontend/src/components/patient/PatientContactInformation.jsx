@@ -14,8 +14,8 @@ const PatientContactInformation = () => {
                 {/* Contact Name */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Controller name="contact.name" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="Contact Name" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} label="Contact Name" />
                         )}
                     />
                 </Grid>
@@ -23,8 +23,8 @@ const PatientContactInformation = () => {
                 {/* Relation */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Controller name="contact.relation" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} select fullWidth label="Relation">
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} select fullWidth label="Relation" error={!!fieldState.error} helperText={fieldState.error?.message}>
                                 <MenuItem value="">Select Relation</MenuItem>
                                 <MenuItem value="Father">Father</MenuItem>
                                 <MenuItem value="Mother">Mother</MenuItem>
@@ -42,8 +42,8 @@ const PatientContactInformation = () => {
                 {/* Contact Phone */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Controller name="contact.phone" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="Contact Phone" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth label="Contact Phone" error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>

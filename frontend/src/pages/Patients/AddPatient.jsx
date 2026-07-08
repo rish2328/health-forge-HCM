@@ -2,16 +2,23 @@ import { Container, Paper, Button, Stack, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { createPatient, createPatientContact, createPatientAddress } from "../../api/patientApi";
+import { toast } from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import AppLayout from "../../layouts/AppLayout";
 import PatientInformation from "../../components/patient/PatientInformation";
 import PatientContactInformation from "../../components/patient/PatientContactInformation";
 import PatientAddressInformation from "../../components/patient/PatientAddressInformation";
+import { patientSchema } from "../../validation/patientValidation";
+
 
 const AddPatient = () => {
     const navigate = useNavigate();
 
     const methods = useForm({
+        resolver: yupResolver(patientSchema),
+
         defaultValues: {
             first_name: "",
             middle_name: "",
@@ -25,35 +32,95 @@ const AddPatient = () => {
             email: "",
             phone: "",
 
-            contact: {
-                name: "",
-                relation: "",
-                phone: "",
-                email: "",
-                is_emergency_contact: false,
-            },
+            // contact: {
+            //     name: "",
+            //     relation: "",
+            //     phone: "",
+            //     email: "",
+            //     is_emergency_contact: false,
+            // },
 
-            address: {
-                address_line_1: "",
-                address_line_2: "",
-                city: "",
-                state: "",
-                country: "",
-                postal_code: "",
-                address_type: "",
-            },
+            // address: {
+            //     address_line_1: "",
+            //     address_line_2: "",
+            //     city: "",
+            //     state: "",
+            //     country: "",
+            //     postal_code: "",
+            //     address_type: "",
+            // },
         },
     });
 
     const { reset } = methods;
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
+    const onSubmit = async (data) => {
+        try {
+            // Patient Payload
+            const patientPayload = {
+                first_name: data.first_name,
+                middle_name: data.middle_name || null,
+                last_name: data.last_name,
 
-    const onAdd =() => {
-        navigate("/patients")
-    }
+                gender: data.gender,
+                dob: data.dob,
+
+                blood_group: data.blood_group,
+                marital_status: data.marital_status,
+
+                email: data.email,
+                phone: data.phone,
+            };
+            // Patient API Calling
+            await createPatient(patientPayload);
+
+            // Extract Patient UUID From Patient Response
+            // const patientUUID = patientResponse.data.data.uuid;
+
+            // if( patientUUID ) {
+            //     // Contact Payload
+            //     const contactPayload = {
+            //         patient_uuid: patientUUID,
+
+            //         name: data.contact.name,
+            //         relation: data.contact.relation,
+            //         phone: data.contact.phone,
+            //         email: data.contact.email,
+            //         is_emergency_contact: data.contact.is_emergency_contact,
+            //     };
+            //     // Contact API Calling
+            //     await createPatientContact(contactPayload);
+
+            //     // Address Payload
+            //     const addressPayload = {
+            //         patient_uuid: patientUUID,
+
+            //         address_line_1: data.address.address_line_1,
+            //         address_line_2: data.address.address_line_2,
+
+            //         city: data.address.city,
+            //         state: data.address.state,
+            //         country: data.address.country,
+
+            //         postal_code: data.address.postal_code,
+            //         address_type: data.address.address_type,
+            //     };
+            //     // Address API Calling
+            //     await createPatientAddress(addressPayload);
+            //     console.log("Patient created successfully");
+            // }
+
+            toast.success("Patient created successfully.");
+            reset();
+
+            setTimeout(() => {
+                navigate("/patients");
+            }, 900);
+        }
+        catch (error) {
+            toast.error( error?.response?.data?.message || "Failed to create patient." );
+        }
+    };
 
     return (
         <AppLayout>
@@ -70,8 +137,8 @@ const AddPatient = () => {
                 <FormProvider {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
                         <PatientInformation />
-                        <PatientContactInformation />
-                        <PatientAddressInformation />
+                        {/* <PatientContactInformation /> */}
+                        {/* <PatientAddressInformation /> */}
 
                         <Paper elevation={0} sx={{ p: 3, mt: 3, borderRadius: 3, border: "1px solid #E5E7EB" }} >
                             <Stack direction="row" spacing={2} sx={{ justifyContent:"flex-end"}} >

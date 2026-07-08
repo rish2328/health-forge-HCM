@@ -69,7 +69,7 @@ class AuthService:
     # @staticmethod
     # def assign_permission_to_role ( db, assign_data ):
     #     return
-    
+
 
     # @staticmethod
     # def get_user_permissions ( db, user_id ):

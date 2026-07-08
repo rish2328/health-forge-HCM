@@ -13,8 +13,8 @@ const PatientAddressInformation = () => {
                 {/* Address Line 1 */}
                 <Grid size={{ xs: 12 }}>
                     <Controller name="address.address_line_1" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="Address Line 1" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth label="Address Line 1" error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -31,8 +31,8 @@ const PatientAddressInformation = () => {
                 {/* City */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="address.city" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="City" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth label="City" error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -40,8 +40,8 @@ const PatientAddressInformation = () => {
                 {/* State */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="address.state" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="State" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth label="State" error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -49,8 +49,8 @@ const PatientAddressInformation = () => {
                 {/* Country */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Controller name="address.country" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="Country" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth label="Country" error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -58,8 +58,8 @@ const PatientAddressInformation = () => {
                 {/* Postal Code */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Controller name="address.postal_code" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} fullWidth label="Postal Code" required />
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} fullWidth label="Postal Code" error={!!fieldState.error} helperText={fieldState.error?.message} />
                         )}
                     />
                 </Grid>
@@ -67,8 +67,8 @@ const PatientAddressInformation = () => {
                 {/* Address Type */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Controller name="address.address_type" control={control} autoComplete="off"
-                        render={({ field }) => (
-                            <TextField {...field} select fullWidth label="Address Type">
+                        render={({ field, fieldState }) => (
+                            <TextField {...field} select fullWidth label="Address Type" error={!!fieldState.error} helperText={fieldState.error?.message}>
                                 <MenuItem value="">Select Address Type</MenuItem>
                                 <MenuItem value="Home">Home</MenuItem>
                                 <MenuItem value="Work">Work</MenuItem>

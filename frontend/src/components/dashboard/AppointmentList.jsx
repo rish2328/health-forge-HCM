@@ -42,7 +42,7 @@ const AppointmentList = () => {
             {/* <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} > */}
             <Box sx={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1em" }} mb={3} >
                 <Box>
-                    <Typography variant="h6" fontWeight={700}> Today's Appointments </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 700 }}> Today's Appointments </Typography>
                     {/* <Typography variant="body2" color="text.secondary"> Upcoming appointments </Typography> */}
                 </Box>
 
@@ -52,10 +52,10 @@ const AppointmentList = () => {
             {/* Table Header */}
 
             <Box sx={{ display: "grid", gridTemplateColumns: "1.6fr 1.7fr 1.2fr .9fr", pb: 1.5, borderBottom: "1px solid #E5E7EB", mb: 1 }} >
-                <Typography fontWeight={700}>Patient</Typography>
-                <Typography fontWeight={700}>Doctor</Typography>
-                <Typography fontWeight={700}>Department</Typography>
-                <Typography fontWeight={700} textAlign="right"> Time </Typography>
+                <Typography sx={{ fontWeight: 700 }}>Patient</Typography>
+                <Typography sx={{ fontWeight: 700 }}>Doctor</Typography>
+                <Typography sx={{ fontWeight: 700 }}>Department</Typography>
+                <Typography sx={{ fontWeight: 700 }} textAlign="right"> Time </Typography>
             </Box>
 
             {appointments.map((appointment, index) => (
