@@ -3,7 +3,7 @@ import { Avatar, Chip, CircularProgress, IconButton, Paper, Stack, Table, TableB
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { formatDate } from "../../utils/dateFormatter";
+import { formatDate } from "../../utils/helpers";
 
 
 const PatientTable = ({

@@ -77,6 +77,10 @@ const PatientList = () => {
         }
     };
 
+    const handleView = (patient) => {
+        navigate(`/patients/dashboard/${patient.uuid}`);
+    };
+
     return (
         <AppLayout>
             <Container maxWidth={false} >
@@ -94,6 +98,7 @@ const PatientList = () => {
                     onRowsPerPageChange={handleRowsPerPageChange}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
+                    onView={handleView}
                 />
 
                 <DeleteConfirmationDialog

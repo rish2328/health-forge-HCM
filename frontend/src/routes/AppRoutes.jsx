@@ -7,7 +7,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import PatientList from "../pages/Patients/PatientList";
 import AddPatient from "../pages/Patients/AddPatient";
 import EditPatient from "../pages/Patients/EditPatient";
-import ViewPatient from "../pages/Patients/ViewPatient";
+import PatientDashboard from "../pages/Patients/PatientDashboard";
 
 
 
@@ -25,8 +25,9 @@ const AppRoutes = () => {
                 {/* Patient Section Route */}
                 <Route path="/patients" element={ <ProtectedRoute><PatientList /></ProtectedRoute> } />
                 <Route path="/patients/add" element={ <ProtectedRoute><AddPatient /></ProtectedRoute> } />
-                <Route path="/patients/view/:uuid" element={ <ProtectedRoute><ViewPatient /></ProtectedRoute> } />
                 <Route path="/patients/edit/:uuid" element={ <ProtectedRoute><EditPatient /></ProtectedRoute> } />
+                
+                <Route path="/patients/dashboard/:uuid" element={ <ProtectedRoute><PatientDashboard /></ProtectedRoute>} />
 
 
                 

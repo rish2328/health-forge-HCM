@@ -13,7 +13,7 @@ class AddressTypeEnum ( str, PyEnum ):
     BILLING = "Billing"
     WORK = "Work"
     OFFICE = "Office"
-    EMERGENCY_CONTACT = "Emergency Contact"
+    EMERGENCY_CONTACT = "Emergency"
     TEMPORARY = "Temporary"
     OTHER = "Other"
 

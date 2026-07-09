@@ -42,6 +42,7 @@ class PatientResponse ( BaseModel ):
     last_name: str
     gender: str
     dob: date
+    patient_mrn: str
     blood_group: str | None = None
     marital_status: str
     email: str

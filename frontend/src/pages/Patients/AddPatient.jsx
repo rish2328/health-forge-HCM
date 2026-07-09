@@ -8,8 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import AppLayout from "../../layouts/AppLayout";
 import PatientInformation from "../../components/patient/PatientInformation";
-import PatientContactInformation from "../../components/patient/PatientContactInformation";
-import PatientAddressInformation from "../../components/patient/PatientAddressInformation";
 import { patientSchema } from "../../validation/patientValidation";
 
 
@@ -31,24 +29,6 @@ const AddPatient = () => {
 
             email: "",
             phone: "",
-
-            // contact: {
-            //     name: "",
-            //     relation: "",
-            //     phone: "",
-            //     email: "",
-            //     is_emergency_contact: false,
-            // },
-
-            // address: {
-            //     address_line_1: "",
-            //     address_line_2: "",
-            //     city: "",
-            //     state: "",
-            //     country: "",
-            //     postal_code: "",
-            //     address_type: "",
-            // },
         },
     });
 
@@ -137,8 +117,6 @@ const AddPatient = () => {
                 <FormProvider {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
                         <PatientInformation />
-                        {/* <PatientContactInformation /> */}
-                        {/* <PatientAddressInformation /> */}
 
                         <Paper elevation={0} sx={{ p: 3, mt: 3, borderRadius: 3, border: "1px solid #E5E7EB" }} >
                             <Stack direction="row" spacing={2} sx={{ justifyContent:"flex-end"}} >

@@ -109,8 +109,6 @@ const EditPatient = () => {
                 <FormProvider {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
                         <PatientInformation />
-                        {/* <PatientContactInformation /> */}
-                        {/* <PatientAddressInformation /> */}
 
                         <Paper elevation={0} sx={{ p: 3, mt: 3, borderRadius: 3, border: "1px solid #E5E7EB" }} >
                             <Stack direction="row" spacing={2} sx={{ justifyContent:"flex-end"}} >

@@ -2,6 +2,7 @@ import securedApi from "./securedAxios";
 
 const BASE_URL = import.meta.env.VITE_PATIENT_SERVICE_URL;
 
+/**************************** PATIENT SECTION API ****************************/
 // GET ALL LIST OF PATIENTS
 export const getPatients = () => {
     return securedApi.get(`${BASE_URL}/patient/`);
@@ -27,12 +28,36 @@ export const deletePatient = (uuid) => {
     return securedApi.delete(`${BASE_URL}/patient/${uuid}`);
 };
 
+
+/**************************** PATIENT CONTACT SECTION API ****************************/
 // CREATE PATIENT CONTACT
 export const createPatientContact = (data) => {
     return securedApi.post(`${BASE_URL}/patient/contact/`, data);
 };
 
+// UPDATE PATIENT CONTACT
+export const updatePatientContact = (contactId, patientUUID, payload) => {
+    return securedApi.put(`${BASE_URL}/patient/contact/${contactId}/${patientUUID}`, payload);
+};
+
+// DELETE PATIENT CONTACT
+export const deletePatientContact = (contactId, patientUUID) => {
+    return securedApi.delete(`${BASE_URL}/patient/contact/${contactId}/${patientUUID}`);
+}
+
+
+/**************************** PATIENT ADDRESS SECTION API ****************************/
 // CREATE PATIENT ADDRESS
 export const createPatientAddress = (data) => {
     return securedApi.post(`${BASE_URL}/patient/address/`, data);
+};
+
+// UPDATE PATIENT ADDRESS
+export const updatePatientAddress = (addressId, patientUUID, payload) => {
+    return securedApi.put(`${BASE_URL}/patient/address/${addressId}/${patientUUID}`, payload);
+};
+
+// DELETE PATIENT ADDRESS
+export const deletePatientAddress = (addressId, patientUUID) => {
+    return securedApi.delete(`${BASE_URL}/patient/address/${addressId}/${patientUUID}`);
 };
