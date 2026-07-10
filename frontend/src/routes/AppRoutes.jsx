@@ -9,6 +9,10 @@ import AddPatient from "../pages/Patients/AddPatient";
 import EditPatient from "../pages/Patients/EditPatient";
 import PatientDashboard from "../pages/Patients/PatientDashboard";
 
+import DepartmentList from "../pages/Department/DepartmentList"
+import AddDepartment from "../pages/Department/AddDepartment"
+// import EditDepartment from "../pages/Department/EditDepartment"
+
 
 
 const AppRoutes = () => {
@@ -26,8 +30,12 @@ const AppRoutes = () => {
                 <Route path="/patients" element={ <ProtectedRoute><PatientList /></ProtectedRoute> } />
                 <Route path="/patients/add" element={ <ProtectedRoute><AddPatient /></ProtectedRoute> } />
                 <Route path="/patients/edit/:uuid" element={ <ProtectedRoute><EditPatient /></ProtectedRoute> } />
-                
                 <Route path="/patients/dashboard/:uuid" element={ <ProtectedRoute><PatientDashboard /></ProtectedRoute>} />
+
+                {/* Department Section Route */}
+                <Route path="/departments" element={ <ProtectedRoute><DepartmentList /></ProtectedRoute> } />
+                <Route path="/departments/add" element={ <ProtectedRoute><AddDepartment /></ProtectedRoute> } />
+                {/* <Route path="/departments/edit/:uuid" element={ <ProtectedRoute><EditDepartment /></ProtectedRoute> } /> */}
 
 
                 

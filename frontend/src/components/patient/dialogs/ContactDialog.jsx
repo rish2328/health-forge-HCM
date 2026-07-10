@@ -54,7 +54,7 @@ const ContactDialog = ({ open, mode, patientUUID, initialData, onClose, onSucces
 
                         {/* Contact Name */}
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Controller name="contact.name" control={control} autoComplete="off"
+                            <Controller name="name" control={control} autoComplete="off"
                                 render={({ field, fieldState }) => (
                                     <TextField {...field} fullWidth error={!!fieldState.error} helperText={fieldState.error?.message} label="Contact Name" />
                                 )}
@@ -63,7 +63,7 @@ const ContactDialog = ({ open, mode, patientUUID, initialData, onClose, onSucces
 
                         {/* Relation */}
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Controller name="contact.relation" control={control} autoComplete="off"
+                            <Controller name="relation" control={control} autoComplete="off"
                                 render={({ field, fieldState }) => (
                                     <TextField {...field} select fullWidth label="Relation" error={!!fieldState.error} helperText={fieldState.error?.message}>
                                         <MenuItem value=""> Select Relation </MenuItem>
@@ -83,7 +83,7 @@ const ContactDialog = ({ open, mode, patientUUID, initialData, onClose, onSucces
 
                         {/* Contact Phone */}
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Controller name="contact.phone" control={control} autoComplete="off"
+                            <Controller name="phone" control={control} autoComplete="off"
                                 render={({ field, fieldState }) => (
                                     <TextField {...field} fullWidth label="Contact Phone" error={!!fieldState.error} helperText={fieldState.error?.message} />
                                 )}
@@ -92,7 +92,7 @@ const ContactDialog = ({ open, mode, patientUUID, initialData, onClose, onSucces
 
                         {/* Contact Email */}
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Controller name="contact.email" control={control} autoComplete="off"
+                            <Controller name="email" control={control} autoComplete="off"
                                 render={({ field }) => (
                                     <TextField {...field} fullWidth label="Contact Email" type="email" />
                                 )}
@@ -101,7 +101,7 @@ const ContactDialog = ({ open, mode, patientUUID, initialData, onClose, onSucces
 
                         {/* Emergency Contact */}
                         <Grid size={{ xs: 12 }}>
-                            <Controller name="contact.is_emergency_contact" control={control} autoComplete="off"
+                            <Controller name="is_emergency_contact" control={control} autoComplete="off"
                                 render={({ field }) => (
                                     <FormControlLabel
                                         control={

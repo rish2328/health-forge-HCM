@@ -58,6 +58,7 @@ const PatientDashboard = () => {
 
                 <Paper elevation={0} sx={{ mt: 3, borderRadius: 1, border: "1px solid #E5E7EB" }} >
                     <Tabs value={tab} onChange={handleTabChange} variant="scrollable" scrollButtons="auto" >
+                        <Tab label="Overview" />
                         <Tab label="Addresses" />
                         <Tab label="Contacts" />
                         <Tab label="Insurance" />
@@ -67,12 +68,13 @@ const PatientDashboard = () => {
                     </Tabs>
 
                     <Box sx={{ p: 3 }}>
-                        {tab === 0 && ( <PatientAddressTab patient={patient} setPatient={setPatient} /> )}
-                        {tab === 1 && ( <PatientContactTab patient={patient} setPatient={setPatient} /> )}
-                        {tab === 2 && ( <div>Insurance Tab</div> )}
-                        {tab === 3 && ( <div>Documents Tab</div> )}
-                        {tab === 4 && ( <div>Vitals Tab</div> )}
-                        {tab === 5 && ( <div>Notes Tab</div> )}
+                        {tab === 0 && ( <PatientOverviewCard patient={patient} /> )}
+                        {tab === 1 && ( <PatientAddressTab patient={patient} setPatient={setPatient} /> )}
+                        {tab === 2 && ( <PatientContactTab patient={patient} setPatient={setPatient} /> )}
+                        {tab === 3 && ( <div>Insurance Tab</div> )}
+                        {tab === 4 && ( <div>Documents Tab</div> )}
+                        {tab === 5 && ( <div>Vitals Tab</div> )}
+                        {tab === 6 && ( <div>Notes Tab</div> )}
                     </Box>
                 </Paper>
 

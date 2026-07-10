@@ -37,7 +37,7 @@ const PatientContactTab = ({ patient, setPatient }) => {
     };
 
 
-    const handleSaveContact = async ({ mode, addressId, data }) => {
+    const handleSaveContact = async ({ mode, contactId, data }) => {
         try {
             const payload = { patient_uuid: patient.uuid, ...data, };
 
@@ -51,7 +51,7 @@ const PatientContactTab = ({ patient, setPatient }) => {
                 toast.success(response.data.message);
             }
             else {
-                const response = await updatePatientContact( addressId, patient.uuid, payload );
+                const response = await updatePatientContact( contactId, patient.uuid, payload );
                 const updatedContact = response.data.data;
 
                 setPatient((prev) => ({
@@ -70,17 +70,17 @@ const PatientContactTab = ({ patient, setPatient }) => {
             setSelectedContact(null);
         }
         catch (error) {
-            toast.error( error?.response?.data?.message || "Failed to save address." );
+            toast.error( error?.response?.data?.message || "Failed to save contact." );
         }
     };
 
     const handleDeleteContact = async () => {
         try {
-            const response = await deletePatientContact( selectedAddress.id, patient.uuid );
+            const response = await deletePatientContact( selectedContact.id, patient.uuid );
             setPatient((prev) => ({
                 ...prev,
                 contact: prev.contact.filter(
-                    (item) => item.id !== selectedAddress.id
+                    (item) => item.id !== selectedContact.id
                 ),
             }));
 
@@ -89,7 +89,7 @@ const PatientContactTab = ({ patient, setPatient }) => {
             setDeleteDialogOpen(false);
             setSelectedContact(null);
         } catch (error) {
-            toast.error( error?.response?.data?.message || "Failed to delete address." );
+            toast.error( error?.response?.data?.message || "Failed to delete contact." );
         }
     };
 
@@ -105,10 +105,10 @@ const PatientContactTab = ({ patient, setPatient }) => {
 
             {Object.keys(groupedContacts).length === 0 && (
                 <Paper variant="outlined" sx={{ p: 5, textAlign: "center", borderRadius: 1 }} >
-                    <Typography variant="h6">No Address Found</Typography>
+                    <Typography variant="h6">No Contact Found</Typography>
 
                     <Typography color="text.secondary" mt={1}>
-                        Click "Add Address" to create the first address.
+                        Click "Add Contact" to create the contacts.
                     </Typography>
                 </Paper>
             )}
@@ -149,10 +149,10 @@ const PatientContactTab = ({ patient, setPatient }) => {
                                     </Stack>
 
                                     <Grid container spacing={3}>
-                                        <Grid size={{ xs: 12, md: 3 }}>
+                                        {/* <Grid size={{ xs: 12, md: 3 }}>
                                             <Typography variant="body2" color="text.secondary" sx={{fontWeight:600}}> Name </Typography>
                                             <Typography>{contact.name}</Typography>
-                                        </Grid>
+                                        </Grid> */}
 
                                         <Grid size={{ xs: 12, md: 3 }}>
                                             <Typography variant="body2" color="text.secondary" sx={{fontWeight:600}}> Relation </Typography>

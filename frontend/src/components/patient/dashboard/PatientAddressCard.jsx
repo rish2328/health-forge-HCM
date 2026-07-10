@@ -107,12 +107,10 @@ const PatientAddressTab = ({ patient, setPatient }) => {
             </Stack>
 
             {Object.keys(groupedAddresses).length === 0 && (
-                <Paper variant="outlined" sx={{ p: 5, textAlign: "center", borderRadius: 1 }} >
+                <Paper variant="outlined" sx={{ p: 5, textAlign:"center", borderRadius:1, fontStyle:"italic" }} >
                     <Typography variant="h6">No Address Found</Typography>
 
-                    <Typography color="text.secondary" mt={1}>
-                        Click "Add Address" to create the first address.
-                    </Typography>
+                    <Typography color="text.secondary" mt={1}> Click "Add Address" to create the first address. </Typography>
                 </Paper>
             )}
 
