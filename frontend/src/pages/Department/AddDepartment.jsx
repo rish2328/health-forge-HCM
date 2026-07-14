@@ -19,7 +19,7 @@ const AddDepartment = () => {
                     <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={() => navigate("/departments")} sx={{ minWidth: 120, height: 46, borderRadius: 1, boxShadow: 2 }} > Back </Button>
                 </Stack>
 
-                <DepartmentForm />
+                <DepartmentForm mode="add" />
             </Container>
         </AppLayout>
     );

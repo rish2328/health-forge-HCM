@@ -28,6 +28,11 @@ const menus = [
         path: "/patients",
     },
     {
+        title: "Departments",
+        icon: <ApartmentRoundedIcon />,
+        path: "/departments",
+    },
+    {
         title: "Appointments",
         icon: <EventRoundedIcon />,
         path: "/appointments",
@@ -36,11 +41,6 @@ const menus = [
         title: "Providers",
         icon: <LocalHospitalRoundedIcon />,
         path: "/providers",
-    },
-    {
-        title: "Departments",
-        icon: <ApartmentRoundedIcon />,
-        path: "/departments",
     },
     {
         title: "Laboratory",

@@ -34,9 +34,10 @@ const PatientTable = ({
             </Stack>
 
             <TableContainer>
-                <Table>
+                <Table size="small">
                     <TableHead>
                         <TableRow>
+                            <TableCell><strong> # </strong></TableCell>
                             <TableCell><strong> Patient </strong></TableCell>
                             <TableCell><strong> Gender </strong></TableCell>
                             <TableCell><strong> DOB </strong></TableCell>
@@ -74,8 +75,9 @@ const PatientTable = ({
 
                         {/* Data */}
                         {!loading &&
-                        patients.slice( page * rowsPerPage, page * rowsPerPage + rowsPerPage ).map((patient) => (
+                        patients.slice( page * rowsPerPage, page * rowsPerPage + rowsPerPage ).map((patient, index) => (
                             <TableRow key={patient.uuid} hover>
+                                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
                                 <TableCell>
                                     <Stack direction="row" spacing={2} sx={{alignItems:"center"}}>
                                         <Avatar> {patient.first_name?.charAt(0)?.toUpperCase()} </Avatar>

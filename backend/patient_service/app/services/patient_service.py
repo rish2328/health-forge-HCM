@@ -80,10 +80,12 @@ class PatientService:
             db.refresh(patient)
             return patient
 
+        except HTTPException:
+            db.rollback()
+            raise
         except IntegrityError as ie:
             db.rollback()
             raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
-
         except Exception as ex:
             db.rollback()
             raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
@@ -164,10 +166,12 @@ class PatientService:
             db.refresh(patient)
             return patient
 
+        except HTTPException:
+            db.rollback()
+            raise
         except IntegrityError as ie:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ie))
-
         except Exception as ex:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))

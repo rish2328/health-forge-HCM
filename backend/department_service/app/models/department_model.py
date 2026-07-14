@@ -12,11 +12,9 @@ class DepartmentsModel ( Base ):
     id              =   Column ( Integer, primary_key = True, index = True )
     uuid            =   Column ( UUID(as_uuid = True), default = uuid.uuid4, unique = True, index = True, nullable = False )
 
-    name            =   Column ( String (50), unique = True, nullable = False )
+    name            =   Column ( String (100), unique = True, nullable = False )
+    code            =   Column ( String (50), unique = True, nullable = True )
     description     =   Column ( String(100), nullable = True )
-
-    code_id         =   Column ( Integer, ForeignKey ("department_codes.id") )
-    code            =   relationship( "DepartmentCodesModel", back_populates = "code", cascade="all, delete-orphan", lazy="selectin" )
 
     status          =   Column ( Boolean, default = True )
     created_at      =   Column ( DateTime, default = datetime.utcnow )

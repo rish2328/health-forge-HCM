@@ -12,9 +12,7 @@ class DepartmentService:
     # GET ALL DEPARTMENTS
     @staticmethod
     def get_all_departments ( db ):
-        all_departments = ( db.query(DepartmentsModel)
-                        .options( selectinload(DepartmentsModel.code) )
-                        .all() )
+        all_departments = db.query(DepartmentsModel).order_by(DepartmentsModel.id.desc()).all()
         return all_departments
 
 
@@ -27,42 +25,18 @@ class DepartmentService:
 
     # CREATE DEPARTMENT
     @staticmethod
-    def create_department(db, department_data, token):
+    def create_department(db, department_data):
         try:
             data = department_data.dict()
+            data["name"] = data["name"].strip().title()
+            data["code"] = data["code"].strip().upper()
 
-            # CREATE USER FOR LOGIN INTO THE PATIENT PORTAL
-            user = AuthServiceClient.create_user_at_auth_service(
-                token,
-                {
-                    "first_name": data["first_name"].strip().title(),
-                    "middle_name": (
-                            data["middle_name"].strip().title()
-                            if data.get("middle_name")
-                            and data["middle_name"].strip()
-                            else None
-                        ),
-                    "last_name": data["last_name"].strip().title(),
-                    "email": data["email"],
-                    "phone": data["phone"],
-                    "password": "12345678",
-                    "role": "department"
-                }
-            )
+            check_existing = db.query(DepartmentsModel).filter(DepartmentsModel.name == data["name"]).first()
+            if check_existing:
+                raise HTTPException ( status_code = status.HTTP_409_CONFLICT, detail = "Department with this name, already exists. Try with another!")
 
-            data["auth_user_uuid"] = user["uuid"]
-            data["first_name"] = data["first_name"].strip().title()
-
-            if data.get("middle_name"):
-                data["middle_name"] = data["middle_name"].strip().title()
-
-            data["last_name"] = data["last_name"].strip().title()
-
-            if data.get("blood_group"):
-                data["blood_group"] = data["blood_group"].strip().upper()
-
-            if data.get("marital_status"):
-                data["marital_status"] = data["marital_status"].strip().title()
+            if data.get("description"):
+                data["description"] = data["description"].strip().capitalize()
 
             department = DepartmentsModel(**data)
             db.add(department)
@@ -70,97 +44,73 @@ class DepartmentService:
             db.refresh(department)
             return department
 
+        except HTTPException:
+            db.rollback()
+            raise
         except IntegrityError as ie:
             db.rollback()
             raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
-
         except Exception as ex:
             db.rollback()
             raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
 
 
-    # DELETE PATIENT
+    # UPDATE DEPARTMENT
     @staticmethod
-    def delete_patient ( db, patient_uuid, token ):
+    def update_department(db, department_uuid, department_data):
         try:
-            patientExist = DepartmentHelper.get_department_by_department_uuid ( db, patient_uuid )
-            if not patientExist:
-                raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Patient Not Found!")
+            data = department_data.dict()
+            department = db.query(DepartmentsModel).filter(DepartmentsModel.uuid == department_uuid).first()
+            if not department:
+                raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Department with this ID, not found!")
 
-            # CREATE USER FOR LOGIN INTO THE PATIENT PORTAL
-            user = AuthServiceClient.delete_user_at_auth_service( token, patientExist.auth_user_uuid )
+            check_existing = db.query(DepartmentsModel).filter(DepartmentsModel.name == data["name"]).filter(DepartmentsModel.uuid != department_uuid).first()
+            if check_existing:
+                raise HTTPException ( status_code = status.HTTP_409_CONFLICT, detail = "Department with this name, already exists. Try with another!")
 
-            db.delete(patientExist)
+            department.name = data["name"].strip().title()
+            department.code = data["code"].strip().upper()
+
+            if data.get("description"):
+                department.description = data["description"].strip().capitalize()
+
+            db.add(department)
+            db.commit()
+            db.refresh(department)
+            return department
+
+        except HTTPException:
+            db.rollback()
+            raise
+        except IntegrityError as ie:
+            db.rollback()
+            raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
+        except Exception as ex:
+            db.rollback()
+            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
+
+
+    # DELETE DEPARTMENT
+    @staticmethod
+    def delete_department(db, department_uuid):
+        try:
+            department = db.query(DepartmentsModel).filter(DepartmentsModel.uuid == department_uuid).first()
+            if not department:
+                raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Department with this ID, not found!")
+
+            db.delete(department)
             db.commit()
             return True
 
+        except HTTPException:
+            db.rollback()
+            raise
         except IntegrityError as ie:
             db.rollback()
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ie))
-
+            raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = str(ie) )
         except Exception as ex:
             db.rollback()
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))
-
-
-    # UPDATE PATIENT
-    @staticmethod
-    def update_patient ( db, patient_uuid, patient_req, token ):
-        try:
-            patient = DepartmentsModel.get_patient_by_patient_uuid( db, patient_uuid )
-            if not patient:
-                raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Patient Not Found!" )
-
-            patient_data = patient_req.dict()
-
-            # UPDATE USER AT AUTH SERVICE
-            user = AuthServiceClient.update_user_at_auth_service(
-                token,
-                patient.auth_user_uuid,
-                {
-                    "first_name": patient_data["first_name"].strip().title(),
-                    "middle_name": (
-                            patient_data["middle_name"].strip().title()
-                            if patient_data.get("middle_name")
-                            and patient_data["middle_name"].strip()
-                            else None
-                        ),
-                    "last_name": patient_data["last_name"].strip().title(),
-                    "email": patient_data["email"],
-                    "phone": patient_data["phone"],
-                }
-            )
-
-            patient.first_name = patient_data["first_name"].strip().title()
-
-            if patient_data.get("middle_name"):
-                patient.middle_name = patient_data["middle_name"].strip().title()
-
-            patient.last_name = patient_data["last_name"].strip().title()
-            patient.gender = patient_data["gender"]
-            patient.dob = patient_data["dob"]
-
-            if patient_data.get("blood_group"):
-                patient.blood_group = patient_data["blood_group"].strip().upper()
-
-            if patient_data.get("marital_status"):
-                patient.marital_status = patient_data["marital_status"].strip().title()
-
-            patient.email = patient_data["email"]
-            patient.phone = patient_data["phone"]
-
-            db.add(patient)
-            db.commit()
-            db.refresh(patient)
-            return patient
-
-        except IntegrityError as ie:
-            db.rollback()
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ie))
-
-        except Exception as ex:
-            db.rollback()
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))
+            raise HTTPException ( status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = str(ex) )
 
 
 

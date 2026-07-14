@@ -11,7 +11,7 @@ import PatientDashboard from "../pages/Patients/PatientDashboard";
 
 import DepartmentList from "../pages/Department/DepartmentList"
 import AddDepartment from "../pages/Department/AddDepartment"
-// import EditDepartment from "../pages/Department/EditDepartment"
+import EditDepartment from "../pages/Department/EditDepartment"
 
 
 
@@ -35,7 +35,7 @@ const AppRoutes = () => {
                 {/* Department Section Route */}
                 <Route path="/departments" element={ <ProtectedRoute><DepartmentList /></ProtectedRoute> } />
                 <Route path="/departments/add" element={ <ProtectedRoute><AddDepartment /></ProtectedRoute> } />
-                {/* <Route path="/departments/edit/:uuid" element={ <ProtectedRoute><EditDepartment /></ProtectedRoute> } /> */}
+                <Route path="/departments/edit/:uuid" element={ <ProtectedRoute><EditDepartment /></ProtectedRoute> } />
 
 
                 

@@ -5,22 +5,23 @@ from pydantic import BaseModel
 
 class CreateDepartmentRequest ( BaseModel ):
     name: str
+    code: str
     description: Optional[str] = None
-    code_id: str
 
 
 class UpdateDepartmentRequest ( BaseModel ):
     name: str
+    code: str
     description: Optional[str] = None
-    code_id: str
 
 
 class DepartmentResponse ( BaseModel ):
     id: int
     uuid: UUID
     name: str
+    code: str
     description: str | None = None
-    code_id: str
+    status: bool
 
     class Config:
         from_attributes = True

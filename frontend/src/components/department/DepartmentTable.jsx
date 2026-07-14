@@ -1,8 +1,6 @@
 import { Box, Chip, CircularProgress, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip, Typography } from "@mui/material";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { formatDate } from "../../utils/helpers";
 
 
 const DepartmentTable = ({
@@ -26,14 +24,14 @@ const DepartmentTable = ({
             </Stack>
 
             <TableContainer>
-                <Table>
+                <Table size="small">
                     <TableHead>
                         <TableRow>
+                            <TableCell width={70}><strong>#</strong></TableCell>
                             <TableCell><strong>Department</strong></TableCell>
                             <TableCell><strong>Code</strong></TableCell>
                             <TableCell><strong>Description</strong></TableCell>
                             <TableCell><strong>Status</strong></TableCell>
-                            <TableCell><strong>Created</strong></TableCell>
                             <TableCell align="center"><strong>Action</strong></TableCell>
                         </TableRow>
                     </TableHead>
@@ -61,25 +59,17 @@ const DepartmentTable = ({
                         )}
 
                         {/* Data */}
-                        {!loading && departments.map((department) => (
+                        {!loading && departments.map((department, index) => (
                             <TableRow key={department.uuid} hover>
-                                <TableCell>
-                                    <Typography fontWeight={600}> {department.department_name} </Typography>
-                                </TableCell>
-                                <TableCell>{department.department_code}</TableCell>
+                                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                                <TableCell><Typography fontWeight={600}> {department.name} </Typography></TableCell>
+                                <TableCell>{department.code}</TableCell>
                                 <TableCell>{department.description || "--"}</TableCell>
                                 <TableCell>
-                                    <Chip label={ department.status === true || department.status === "Active" ? "Active" : "Inactive" } color={ department.status === true || department.status === "Active" ? "success" : "default" } size="small" />
+                                    <Chip label={ department.status === true ? "Active" : "Inactive" } color={ department.status === true ? "success" : "default" } size="small" />
                                 </TableCell>
 
-                                <TableCell>{formatDate(department.created_at)}</TableCell>
                                 <TableCell align="center">
-                                    <Tooltip title="View">
-                                        <IconButton color="primary" onClick={() => onView(department)} >
-                                            <VisibilityOutlinedIcon />
-                                        </IconButton>
-                                    </Tooltip>
-
                                     <Tooltip title="Edit">
                                         <IconButton color="warning" onClick={() => onEdit(department)} >
                                             <EditOutlinedIcon />
