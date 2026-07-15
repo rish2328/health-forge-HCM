@@ -33,14 +33,14 @@ const menus = [
         path: "/departments",
     },
     {
-        title: "Appointments",
-        icon: <EventRoundedIcon />,
-        path: "/appointments",
-    },
-    {
         title: "Providers",
         icon: <LocalHospitalRoundedIcon />,
         path: "/providers",
+    },
+    {
+        title: "Appointments",
+        icon: <EventRoundedIcon />,
+        path: "/appointments",
     },
     {
         title: "Laboratory",

@@ -12,6 +12,9 @@ import PatientDashboard from "../pages/Patients/PatientDashboard";
 import DepartmentList from "../pages/Department/DepartmentList"
 import AddDepartment from "../pages/Department/AddDepartment"
 import EditDepartment from "../pages/Department/EditDepartment"
+import ProviderList from "../pages/Providers/ProviderList"
+import AddProvider from "../pages/Providers/AddProvider"
+import EditProvider from "../pages/Providers/EditProvider"
 
 
 
@@ -36,6 +39,11 @@ const AppRoutes = () => {
                 <Route path="/departments" element={ <ProtectedRoute><DepartmentList /></ProtectedRoute> } />
                 <Route path="/departments/add" element={ <ProtectedRoute><AddDepartment /></ProtectedRoute> } />
                 <Route path="/departments/edit/:uuid" element={ <ProtectedRoute><EditDepartment /></ProtectedRoute> } />
+
+                {/* Provider Section Route */}
+                <Route path="/providers" element={ <ProtectedRoute><ProviderList /></ProtectedRoute>} />
+                <Route path="/providers/add" element={ <ProtectedRoute><AddProvider /></ProtectedRoute>} />
+                <Route path="/providers/edit/:uuid" element={ <ProtectedRoute><EditProvider /></ProtectedRoute>} />
 
 
                 
