@@ -10,11 +10,9 @@ from app.api import patient_route, patient_address_route, patient_contact_route,
 
 
 Base.metadata.create_all ( bind = engine )
-app = FastAPI ( title = "Health Forge ( A Health Care Management System )")
+app = FastAPI ( title = "Health Forge ( A Health Care Management System )" )
 
-origins = [
-    "http://localhost:5100",
-]
+origins = [ "http://localhost:5100" ]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

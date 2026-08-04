@@ -9,4 +9,4 @@ class Settings ( BaseSettings ):
         env_file = ".env"
         extra = "allow"
 
-patientSettings = Settings ()
+providerSettings = Settings ()

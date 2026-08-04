@@ -19,7 +19,7 @@ const WelcomeCard = () => {
                 <Stack direction="row" spacing={2} mt={4} sx={{ marginTop: "10px" }} >
                     <Button variant="contained" startIcon={<PersonAddIcon />} sx={{ bgcolor: "#fff", color: "#2563EB", fontWeight: 600, "&:hover": { bgcolor: "#F9FAFB", } }} onClick={() => navigate("/patients/add")} > Add Patient </Button>
 
-                    <Button variant="outlined" startIcon={<EventIcon />} sx={{ borderColor: "#fff", color: "#fff", "&:hover": { borderColor: "#fff", bgcolor: "rgba(255,255,255,.08)" } }} > Appointment </Button>
+                    <Button variant="outlined" startIcon={<EventIcon />} sx={{ borderColor: "#fff", color: "#fff", "&:hover": { borderColor: "#fff", bgcolor: "rgba(255,255,255,.08)" } }} onClick={() => navigate("/appointments/add")} > Appointment </Button>
                 </Stack>
             </Box>
 

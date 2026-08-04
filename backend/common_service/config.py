@@ -9,6 +9,8 @@ class Settings ( BaseSettings ):
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int
     JWT_TOKEN_URL: str
     AUTH_SERVICE_URL: str
+    PATIENT_SERVICE_URL: str
+    DEPARTMENT_SERVICE_URL: str
 
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",

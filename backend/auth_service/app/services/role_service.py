@@ -11,7 +11,7 @@ class RoleService:
     # GET LIST OF ALL ROLES
     @staticmethod
     def get_all_roles ( db ):
-        all_roles = db.query(RolesModel).all()
+        all_roles = db.query(RolesModel).filter(RolesModel.name != "super-admin").all()
         return all_roles
 
 

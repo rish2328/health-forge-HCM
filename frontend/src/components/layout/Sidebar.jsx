@@ -73,7 +73,7 @@ const Sidebar = ({ open }) => {
     const navigate = useNavigate();
     const logout = () => {
         localStorage.removeItem("access_token");
-        navigate("/");
+        navigate("/login");
     };
 
     return (

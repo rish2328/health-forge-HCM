@@ -16,6 +16,11 @@ import ProviderList from "../pages/Providers/ProviderList"
 import AddProvider from "../pages/Providers/AddProvider"
 import EditProvider from "../pages/Providers/EditProvider"
 
+import AppointmentList from "../pages/Appointments/AppointmentList";
+import ScheduleAppointment from "../pages/Appointments/ScheduleAppointment";
+// import EditAppointment from "../pages/Appointments/EditAppointment";
+// import AppointmentDetails from "../pages/Appointments/AppointmentDetails";
+
 
 
 const AppRoutes = () => {
@@ -45,6 +50,11 @@ const AppRoutes = () => {
                 <Route path="/providers/add" element={ <ProtectedRoute><AddProvider /></ProtectedRoute>} />
                 <Route path="/providers/edit/:uuid" element={ <ProtectedRoute><EditProvider /></ProtectedRoute>} />
 
+                {/* Appointments Section Route */}
+                <Route path="/appointments" element={<ProtectedRoute><AppointmentList /></ProtectedRoute>} />
+                <Route path="/appointments/add" element={<ProtectedRoute><ScheduleAppointment /></ProtectedRoute>} />
+                {/* <Route path="/appointments/edit/:uuid" element={<ProtectedRoute><EditAppointment /></ProtectedRoute>} />
+                <Route path="/appointments/:uuid" element={<ProtectedRoute><AppointmentDetails /></ProtectedRoute>} /> */}
 
                 
 

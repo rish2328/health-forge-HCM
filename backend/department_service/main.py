@@ -5,7 +5,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 from fastapi import FastAPI
 from app.core.database import Base, engine
 from app.models import department_model
-from app.api import department_route
+from app.api import department_route, internal_department_route
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -24,3 +24,4 @@ app.add_middleware(
 )
 
 app.include_router ( department_route.router )
+app.include_router ( internal_department_route.router )

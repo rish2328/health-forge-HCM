@@ -10,7 +10,8 @@ engine = create_engine (
     echo = patientSettings.DATABASE_ECHO       #   turn this on to debug SQL queries
 )
 
-SessionLocal = sessionmaker ( autoflush = False, autocommit = False, bind = engine )
+SessionLocal = sessionmaker ( autoflush = False,
+                              autocommit = False, bind = engine )
 
 Base = declarative_base()
 

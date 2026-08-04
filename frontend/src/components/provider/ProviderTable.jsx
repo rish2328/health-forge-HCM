@@ -1,58 +1,85 @@
-import { Chip, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import { Chip, CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 
-const ProviderTable = () => {
+const ProviderTable = ({ providers = [], loading = false, page = 1, rowsPerPage = 10, totalCount = 0, onRowsPerPageChange, onPageChange, onView, onEdit, onDelete, }) => {
     return (
-        <Paper elevation={0} sx={{borderRadius: 1, border: "1px solid #E5E7EB" }} >
+        <Paper elevation={0} sx={{ borderRadius: 1, border: "1px solid #E5E7EB" }} >
             <TableContainer>
-                <Table size="small" sx={{ "& .MuiTableCell-root": { py: 1.5, } }} >
+                <Table size="small" sx={{ "& .MuiTableCell-root": { py: 1.0, } }} >
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Provider</TableCell>
-                            <TableCell>Department</TableCell>
-                            <TableCell>Specialization</TableCell>
-                            <TableCell>Phone</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell align="center">Action</TableCell>
+                            <TableCell width={60}><strong> # </strong></TableCell>
+                            <TableCell><strong> Provider </strong></TableCell>
+                            <TableCell><strong> Department </strong></TableCell>
+                            <TableCell><strong> Designation </strong></TableCell>
+                            <TableCell><strong> Phone </strong></TableCell>
+                            <TableCell><strong> Email </strong></TableCell>
+                            <TableCell><strong> Status </strong></TableCell>
+                            <TableCell align="center" width={160}><strong> Action </strong></TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
-                        <TableRow>
-                            <TableCell>1</TableCell>
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={8} align="center"><CircularProgress size={28} /></TableCell>
+                            </TableRow>
+                        ) : providers.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={8} align="center">No providers found.</TableCell>
+                            </TableRow>
+                        ) : (
+                            providers.slice( page * rowsPerPage, page * rowsPerPage + rowsPerPage ).map((provider, index) => (
+                                <TableRow key={provider.uuid} hover >
+                                    <TableCell> {page * rowsPerPage + index + 1} </TableCell>
 
-                            <TableCell>
-                                <Typography fontWeight={600}>Dr. John Smith</Typography>
-                            </TableCell>
+                                    <TableCell>
+                                        <Typography fontWeight={600}> {provider.title}{" "} {provider.first_name}{" "} {provider.last_name} </Typography>
+                                    </TableCell>
 
-                            <TableCell>Cardiology</TableCell>
-                            <TableCell>Cardiologist</TableCell>
-                            <TableCell>+91 9876543210</TableCell>
+                                    <TableCell> {provider.department_name || "-"} </TableCell>
 
-                            <TableCell>
-                                <Chip label="Active" color="success" size="small" />
-                            </TableCell>
+                                    <TableCell> {provider.designation || "-"} </TableCell>
 
-                            <TableCell align="center">
-                                <IconButton color="primary"><VisibilityOutlinedIcon /></IconButton>
-                                <IconButton color="warning"><EditOutlinedIcon /></IconButton>
-                                <IconButton color="error"><DeleteOutlineOutlinedIcon /></IconButton>
-                            </TableCell>
-                        </TableRow>
+                                    <TableCell> {provider.phone} </TableCell>
+
+                                    <TableCell> {provider.email} </TableCell>
+
+                                    <TableCell>
+                                        <Chip size="small" label={provider.status == true ? "Active" : "In-Active"} color={ provider.status == true ? "success" : "default" } />
+                                    </TableCell>
+
+                                    <TableCell align="center">
+                                        {/* <IconButton color="primary" onClick={() => onView(provider.uuid) } >
+                                            <VisibilityOutlinedIcon />
+                                        </IconButton> */}
+
+                                        <IconButton color="warning" onClick={() => onEdit(provider.uuid) } >
+                                            <EditOutlinedIcon />
+                                        </IconButton>
+
+                                        <IconButton color="error" onClick={() => onDelete(provider.uuid) } >
+                                            <DeleteOutlineOutlinedIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
 
             <TablePagination
                 component="div"
-                count={1}
-                page={0}
-                rowsPerPage={10}
-                rowsPerPageOptions={[10]}
+                count={totalCount}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={[10, 25, 50]}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
             />
         </Paper>
     );

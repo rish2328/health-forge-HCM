@@ -68,8 +68,8 @@ const DepartmentForm = ({ mode = "add", uuid = null }) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Paper elevation={0} sx={{ p: 4, borderRadius: 3, border: "1px solid #E5E7EB" }} >
-                <Typography variant="h5" fontWeight={600}> Department Information </Typography>
-                <Divider sx={{ my: 3 }} />
+                {/* <Typography variant="h5" fontWeight={600}> Department Information </Typography>
+                <Divider sx={{ my: 3 }} /> */}
 
                 <Grid container spacing={3} sx={{ p: 4}}>
                     {/* Department Name */}
