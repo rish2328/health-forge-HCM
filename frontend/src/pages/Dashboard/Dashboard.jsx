@@ -18,64 +18,30 @@ const Dashboard = () => {
 
             <Grid container spacing={2.5} sx={{ mt: 1, mb: 3 }} >
                 <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
-                    <StatCard
-                        title="Patients"
-                        value="1,250"
-                        growth="+12%"
-                        color="#2563EB"
-                        icon={<PeopleIcon />}
-                    />
+                    <StatCard title="Patients" value="1,250" growth="+12%" color="#2563EB" icon={<PeopleIcon />} />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
-                    <StatCard
-                        title="Appointments"
-                        value="245"
-                        growth="+8%"
-                        color="#0EA5E9"
-                        icon={<EventIcon />}
-                    />
+                    <StatCard title="Appointments" value="245" growth="+8%" color="#0EA5E9" icon={<EventIcon />} />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
-                    <StatCard
-                        title="Providers"
-                        value="42"
-                        growth="+5%"
-                        color="#10B981"
-                        icon={<LocalHospitalIcon />}
-                    />
+                    <StatCard title="Providers" value="42" growth="+5%" color="#10B981" icon={<LocalHospitalIcon />} />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
-                    <StatCard
-                        title="Revenue"
-                        value="₹4.58 L"
-                        growth="+18%"
-                        color="#F59E0B"
-                        icon={<CurrencyRupeeIcon />}
-                    />
+                    <StatCard title="Revenue" value="₹4.58 L" growth="+18%" color="#F59E0B" icon={<CurrencyRupeeIcon />} />
                 </Grid>
             </Grid>
 
             <Grid container spacing={2.5} sx={{ mt: 1, mb: 3 }} >
-                <Grid size={{ xs: 12, md: 6, }} >
-                    <RecentPatients />
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 6, }} >
-                    <AppointmentList />
-                </Grid>
+                <Grid size={{ xs: 12, md: 6, }} ><RecentPatients /></Grid>
+                <Grid size={{ xs: 12, md: 6, }} ><AppointmentList /></Grid>
             </Grid>
 
             {/* <Grid container spacing={2.5} sx={{ mt: 1, mb: 3 }} >
-                <Grid size={{ xs: 12, md: 6, }} >
-                    <QuickActions />
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 6, }} >
-                    <ActivityTimeline />
-                </Grid>
+                <Grid size={{ xs: 12, md: 6, }} ><QuickActions /></Grid>
+                <Grid size={{ xs: 12, md: 6, }} ><ActivityTimeline /></Grid>
             </Grid> */}
         </AppLayout>
     );

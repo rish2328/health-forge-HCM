@@ -8,7 +8,7 @@ const WelcomeCard = () => {
     const navigate = useNavigate();
 
     return (
-        <Box sx={{ background: "linear-gradient(135deg,#2563EB 0%,#1D4ED8 100%)", color: "#fff", borderRadius: 4, px: 5, py: 3, mb: 3, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", boxShadow: "0 15px 35px rgba(37,99,235,.25)" }} >
+        <Box sx={{ background: "linear-gradient(135deg,#2563EB 0%,#1D4ED8 100%)", color: "#fff", borderRadius: 2, px: 5, py: 3, mb: 3, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", boxShadow: "0 15px 35px rgba(37,99,235,.25)" }} >
         {/* Left */}
 
             <Box>

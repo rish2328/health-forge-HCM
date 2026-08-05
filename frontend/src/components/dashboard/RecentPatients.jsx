@@ -51,28 +51,17 @@ const patients = [
 
 const RecentPatients = () => {
     return (
-        <Paper
-            sx={{
-                borderRadius: 4,
-                p: 3,
-                height: "100%",
-                border: "1px solid #EEF2F7",
-                boxShadow: "0 8px 25px rgba(15,23,42,.06)",
-            }}
-        >
+        <Paper sx={{ borderRadius: 4, p: 3, height: "100%", border: "1px solid #EEF2F7", boxShadow: "0 8px 25px rgba(15,23,42,.06)" }} >
         {/* Header */}
-
             <Box sx={{ display:"flex", alignItems:"center", justifyContent:"space-between" }} mb={3} >
                 <Box>
                     <Typography variant="h6" sx={{ fontWeight: 700 }}> Recent Patients </Typography>
                     {/* <Typography variant="body2" color="text.secondary"> Last 3 registered patients </Typography> */}
                 </Box>
-
                 <Button endIcon={<ArrowForwardRoundedIcon />} size="small"> View All </Button>
             </Box>
 
             {/* Table */}
-
             <TableContainer>
                 <Table>
                     <TableHead>
