@@ -9,7 +9,7 @@ from app.utils.response import success
 
 router = APIRouter ( prefix = "/provider", tags = [ "Provider Routes" ] )
 
-# GET ALL PATIENTS
+# GET ALL PROVIDERS
 @router.get ( "/", status_code = status.HTTP_200_OK, response_model = ApiResponse[list[ProviderResponse]] )
 async def get_all_providers ( db: DB_Dependencies, auth: Auth_Dependency ):
     if not auth:
@@ -19,17 +19,17 @@ async def get_all_providers ( db: DB_Dependencies, auth: Auth_Dependency ):
     return success ( "Retrieve all Providers successfully!", provider )
 
 
-# GET PATIENT BY PATIENT UUID
-# @router.get ( "/{provider_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[ProviderResponse] )
-# async def get_provider_by_provider_uuid ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str ):
-#     if not auth:
-#         raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
-#
-#     provider = PatientService.get_provider_by_provider_uuid( db, provider_uuid )
-#     return success ( "Retrieve Patient by ID successfully!", provider )
+# GET PROVIDER BY PROVIDER UUID
+@router.get ( "/{provider_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[ProviderResponse] )
+async def get_provider_by_provider_uuid ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    provider = ProvidersService.get_provider_by_provider_uuid( db, provider_uuid, auth["token"] )
+    return success ( "Retrieve Patient by ID successfully!", provider )
 
 
-# CREATE PATIENT
+# CREATE PROVIDER
 @router.post( '/', status_code = status.HTTP_201_CREATED, response_model=ApiResponse[ProviderResponse] )
 async def create_provider ( db: DB_Dependencies, auth: Auth_Dependency, provider_data: CreateProviderSchema ):
     if not auth:
@@ -39,21 +39,21 @@ async def create_provider ( db: DB_Dependencies, auth: Auth_Dependency, provider
     return success( "Provider has been created successfully", provider )
 
 
-# DELETE PATIENT
-# @router.delete( '/{provider_uuid}', status_code = status.HTTP_200_OK )
-# async def delete_provider ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid ):
-#     if not auth:
-#         raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
-#
-#     provider = PatientService.delete_provider ( db, provider_uuid, auth["token"] )
-#     return success( "Patient has been deleted successfully", provider )
+# DELETE PROVIDER
+@router.delete( '/{provider_uuid}', status_code = status.HTTP_200_OK )
+async def delete_provider ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    provider = ProvidersService.delete_provider ( db, provider_uuid, auth["token"] )
+    return success( "Patient has been deleted successfully", provider )
 
 
-# UPDATE PATIENT
-# @router.put( '/{provider_uuid}', status_code = status.HTTP_200_OK, response_model=ApiResponse[ProviderResponse] )
-# async def update_provider ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str, provider_data: UpdateProviderSchema ):
-#     if not auth:
-#         raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
-#
-#     provider = PatientService.update_provider ( db, provider_uuid, provider_data, auth["token"] )
-#     return success("Patient has been updated successfully", provider)
+# UPDATE PROVIDER
+@router.put( '/{provider_uuid}', status_code = status.HTTP_200_OK, response_model=ApiResponse[ProviderResponse] )
+async def update_provider ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str, provider_data: UpdateProviderSchema ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    provider = ProvidersService.update_provider ( db, provider_uuid, provider_data, auth["token"] )
+    return success("Provider has been updated successfully", provider)

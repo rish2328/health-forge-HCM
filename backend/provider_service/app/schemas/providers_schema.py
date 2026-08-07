@@ -8,7 +8,7 @@ from pydantic import BaseModel
 class CreateProviderSchema ( BaseModel ):
     title: str
     first_name: str
-    middle_name: str
+    middle_name: Optional[str] = None
     last_name: str
     gender: str
     dob: date
@@ -29,7 +29,7 @@ class CreateProviderSchema ( BaseModel ):
 class UpdateProviderSchema ( BaseModel ):
     title: str
     first_name: str
-    middle_name: str
+    middle_name: Optional[str] = None
     last_name: str
     gender: str
     dob: date
@@ -54,7 +54,7 @@ class ProviderResponse ( BaseModel ):
     provider_code: str
     title: str
     first_name: str
-    middle_name: str
+    middle_name: Optional[str] = None
     last_name: str
     gender: str
     dob: date
@@ -71,6 +71,9 @@ class ProviderResponse ( BaseModel ):
     registration_number: str
     remarks: Optional[str] = None
     status: bool
+    role_uuid: Optional[str] = None
+    role_name: Optional[str] = None
+    role_display_name: Optional[str] = None
 
     # addresses: list[PatientAddressResponse] = []
     # contact: list[PatientContactResponse] = []

@@ -1,12 +1,13 @@
 import { Container, Stack, Typography, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import ProviderForm from "../../components/provider/ProviderForm";
 
 
 const EditProvider = () => {
     const { uuid } = useParams();
+    const navigate = useNavigate();
 
     return (
         <AppLayout>

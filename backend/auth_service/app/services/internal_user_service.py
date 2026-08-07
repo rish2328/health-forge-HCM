@@ -95,21 +95,48 @@ class InternalUserService:
 
     # UPDATE EXISTING USER BY USER UUID AND USER DATA
     @staticmethod
-    def update_internal_user_by_user_uuid ( db, user_uuid, user_req ):
-        user_exist = db.query(UserModel).filter(UserModel.uuid == user_uuid).first()
+    def update_internal_user_by_user_uuid(db, user_uuid, user_req):
+        # Check User
+        user_exist = db.query(UserModel).filter( UserModel.uuid == user_uuid ).first()
         if not user_exist:
-            raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "User not found!" )
+            raise HTTPException( status_code = status.HTTP_404_NOT_FOUND, detail = "User not found!" )
 
+        # Request Data
         user_data = user_req.dict()
-        user_exist.first_name   =   user_data["first_name"].strip().title()
 
-        if user_data["middle_name"]:
-            user_exist.middle_name  =   user_data["middle_name"].strip().title()
+        # Update User Information
+        user_exist.first_name = user_data["first_name"].strip().title()
 
-        user_exist.last_name    =   user_data["last_name"].strip().title()
-        user_exist.email        =   user_data["email"]
-        user_exist.phone        =   user_data["phone"]
+        if user_data.get("middle_name"):
+            user_exist.middle_name = user_data["middle_name"].strip().title()
+        else:
+            user_exist.middle_name = None
 
+        user_exist.last_name = user_data["last_name"].strip().title()
+        user_exist.email = user_data["email"]
+        user_exist.phone = user_data["phone"]
+
+        # Update User Role
+        if user_data.get("role"):
+            # Find Role by Name
+            role = db.query(RolesModel).filter( RolesModel.name == user_data["role"] ).first()
+            if not role:
+                raise HTTPException( status_code = status.HTTP_404_NOT_FOUND, detail = "Role not found!" )
+
+            # Get Existing User Role
+            user_role = db.query(UserRolesModel).filter( UserRolesModel.user_id == user_exist.id ).first()
+
+            if user_role:
+                # Update only if role changed
+                if user_role.role_id != role.id:
+                    user_role.role_id = role.id
+
+                    db.add(user_role)
+            else:
+                # Assign role if no role exists
+                db.add( UserRolesModel( user_id = user_exist.id, role_id = role.id ) )
+
+        # Save Changes
         db.add(user_exist)
         db.commit()
         db.refresh(user_exist)

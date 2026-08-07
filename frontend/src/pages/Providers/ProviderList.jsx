@@ -3,10 +3,11 @@ import { Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
-import { getProviders } from "../../api/providerApi";
+import { getProviders, deleteProvider } from "../../api/providerApi";
 import ProviderTable from "../../components/provider/ProviderTable";
 import ProviderFilter from "../../components/provider/ProviderFilter";
 import ProviderHeader from "../../components/provider/ProviderHeader";
+import ProviderDialog from "../../components/provider/dialogs/ProviderDialog";
 
 
 const ProviderList = () => {
@@ -15,6 +16,8 @@ const ProviderList = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [search, setSearch] = useState("");
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectedProviderUUID, setSelectedProviderUUID] = useState(null);
 
     const navigate = useNavigate();
 
@@ -50,6 +53,33 @@ const ProviderList = () => {
         navigate(`/providers/edit/${uuid}`);
     };
 
+    const handleDelete = (uuid) => {
+        setSelectedProviderUUID(uuid);
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        try {
+            const response = await deleteProvider(selectedProviderUUID);
+            toast.success(response.data.message);
+            setDeleteDialogOpen(false);
+            setSelectedProviderUUID(null);
+            loadProviders();
+        } 
+        catch (error) {
+            toast.error( error?.response?.data?.detail || error?.response?.data?.message || "Failed to delete provider." );
+        }
+    };
+
+    const closeDeleteDialog = () => {
+        setDeleteDialogOpen(false);
+        setSelectedProviderUUID(null);
+    };
+
+    const handleView = (uuid) => {
+        navigate(`/providers/${uuid}`);
+    };
+
     useEffect(() => {
         loadProviders();
     }, [page, search]);
@@ -69,8 +99,12 @@ const ProviderList = () => {
                     totalCount={providers.length}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
+                    onView={handleView}
                     onEdit={handleEdit}
+                    onDelete={handleDelete}
                 />
+
+                <ProviderDialog open={deleteDialogOpen} onClose={closeDeleteDialog} onConfirm={confirmDelete} />
             </Container>
         </AppLayout>
     );

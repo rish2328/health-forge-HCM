@@ -12,12 +12,12 @@ router = APIRouter ( prefix = "/auth", tags = [ "Auth-Router" ] )
 
 
 # REGISTER USER
-@router.post ( "/register",
-                dependencies = [ Depends( RateLimiter( max_requests = 3, window = 60 ) ) ],
-                status_code = status.HTTP_201_CREATED )
-async def auth_register ( db: DB_Dependencies, auth_req: RegisterRequest ):
-    auth = AuthService.auth_register_service ( db, auth_req )
-    return success ( "User has been created successfully", auth )
+# @router.post ( "/register",
+#                 dependencies = [ Depends( RateLimiter( max_requests = 3, window = 60 ) ) ],
+#                 status_code = status.HTTP_201_CREATED )
+# async def auth_register ( db: DB_Dependencies, auth_req: RegisterRequest ):
+#     auth = AuthService.auth_register_service ( db, auth_req )
+#     return success ( "User has been created successfully", auth )
 
 
 # LOGIN USER

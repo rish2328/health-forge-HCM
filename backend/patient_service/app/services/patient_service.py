@@ -99,8 +99,8 @@ class PatientService:
             if not patientExist:
                 raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Patient Not Found!")
 
-            # CREATE USER FOR LOGIN INTO THE PATIENT PORTAL
-            user = AuthServiceClient.delete_user_at_auth_service( token, patientExist.auth_user_uuid )
+            # DELETE PATIENT, IT's ROLE AVOID THE PATIENT LOGIN INTO PATIENT PORTAL
+            AuthServiceClient.delete_user_at_auth_service( token, patientExist.auth_user_uuid )
 
             db.delete(patientExist)
             db.commit()

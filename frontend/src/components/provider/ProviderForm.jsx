@@ -73,24 +73,25 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
 
             if (mode === "edit") {
                 const response = await updateProvider(uuid, payload);
-                toast.success(response.data.message);
+                toast.success(response.data.detail);
             }
             else {
                 const response = await createProvider(payload);
-                toast.success(response.data.message);
+                toast.success(response.data.detail);
 
                 reset(defaultValues);
             }
             navigate("/providers");
         }
         catch (error) {
-            toast.error( error?.response?.data?.message || "Failed to create provider." );
+            toast.error( error?.response?.data?.detail );
         }
     };
 
     const loadProvider = async () => {
         try {
             const response = await getProviderByUUID(uuid);
+            console.log('check-response-edit: ', response.data.data);
             reset(response.data.data);
         } 
         catch (error) {
@@ -137,7 +138,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="first_name" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="First Name" error={!!errors.first_name} helperText={errors.first_name?.message} />
+                                <TextField {...field} fullWidth label="First Name" autoComplete="off" error={!!errors.first_name} helperText={errors.first_name?.message} />
                             )}
                         />
                     </Grid>
@@ -146,7 +147,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="middle_name" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="Middle Name" />
+                                <TextField {...field} fullWidth label="Middle Name" autoComplete="off" />
                             )}
                         />
                     </Grid>
@@ -155,7 +156,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="last_name" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="Last Name" error={!!errors.last_name} helperText={errors.last_name?.message} />
+                                <TextField {...field} fullWidth label="Last Name" autoComplete="off" error={!!errors.last_name} helperText={errors.last_name?.message} />
                             )}
                         />
                     </Grid>
@@ -164,7 +165,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Controller name="gender" control={control}
                             render={({ field }) => (
-                                <TextField {...field} select fullWidth label="Gender" error={!!errors.gender} helperText={errors.gender?.message} >
+                                <TextField {...field} select fullWidth label="Gender" autoComplete="off" error={!!errors.gender} helperText={errors.gender?.message} >
                                     <MenuItem value="Male">Male</MenuItem>
                                     <MenuItem value="Female">Female</MenuItem>
                                     <MenuItem value="Other">Other</MenuItem>
@@ -177,7 +178,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Controller name="dob" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth type="date" label="Date of Birth" InputLabelProps={{ shrink: true }} error={!!errors.dob} helperText={errors.dob?.message} />
+                                <TextField {...field} fullWidth type="date" autoComplete="off" label="Date of Birth" InputLabelProps={{ shrink: true }} error={!!errors.dob} helperText={errors.dob?.message} />
                             )}
                         />
                     </Grid>
@@ -186,7 +187,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Controller name="email" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="Email" error={!!errors.email} helperText={errors.email?.message} />
+                                <TextField {...field} fullWidth label="Email" autoComplete="off" error={!!errors.email} helperText={errors.email?.message} />
                             )}
                         />
                     </Grid>
@@ -195,7 +196,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 3 }}>
                         <Controller name="phone" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="Phone" error={!!errors.phone} helperText={errors.phone?.message} />
+                                <TextField {...field} fullWidth label="Phone" autoComplete="off" error={!!errors.phone} helperText={errors.phone?.message} />
                             )}
                         />
                     </Grid>
@@ -211,7 +212,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="department_uuid" control={control} 
                             render={({ field }) => (
-                                <TextField {...field} select fullWidth label="Department" error={!!errors.department_uuid} helperText={errors.department_uuid?.message} >
+                                <TextField {...field} select fullWidth autoComplete="off" label="Department" error={!!errors.department_uuid} helperText={errors.department_uuid?.message} >
                                     <MenuItem value=""><em>Select Department</em></MenuItem>
                                     {departments.map((department) => (
                                         <MenuItem key={department.uuid} value={department.uuid} > {department.name} ( {department.code} ) </MenuItem>
@@ -225,7 +226,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="designation" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="Designation" error={!!errors.designation} helperText={errors.designation?.message} />
+                                <TextField {...field} fullWidth label="Designation" autoComplete="off" error={!!errors.designation} helperText={errors.designation?.message} />
                             )}
                         />
                     </Grid>
@@ -234,7 +235,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="employment_type" control={control}
                             render={({ field }) => (
-                                <TextField {...field} select fullWidth label="Employment Type" error={!!errors.employment_type} helperText={errors.employment_type?.message} >
+                                <TextField {...field} select fullWidth autoComplete="off" label="Employment Type" error={!!errors.employment_type} helperText={errors.employment_type?.message} >
                                     <MenuItem value="Full-Time">Full-Time</MenuItem>
                                     <MenuItem value="Part-Time">Part-Time</MenuItem>
                                     <MenuItem value="Visiting">Visiting</MenuItem>
@@ -251,7 +252,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 6 }}>
                         <Controller name="license_number" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="License Number" error={!!errors.license_number} helperText={errors.license_number?.message} />
+                                <TextField {...field} fullWidth label="License Number" autoComplete="off" error={!!errors.license_number} helperText={errors.license_number?.message} />
                             )}
                         />
                     </Grid>
@@ -260,7 +261,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 6 }}>
                         <Controller name="registration_number" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth label="Registration Number" error={!!errors.registration_number} helperText={errors.registration_number?.message} />
+                                <TextField {...field} fullWidth label="Registration Number" autoComplete="off" error={!!errors.registration_number} helperText={errors.registration_number?.message} />
                             )}
                         />
                     </Grid>
@@ -276,7 +277,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="consultation_fee" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth type="text" label="Consultation Fee" error={!!errors.consultation_fee} helperText={errors.consultation_fee?.message} />
+                                <TextField {...field} fullWidth type="text" autoComplete="off" label="Consultation Fee" error={!!errors.consultation_fee} helperText={errors.consultation_fee?.message} />
                             )}
                         />
                     </Grid>
@@ -285,7 +286,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="followup_fee" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth type="text" label="Follow-up Fee" error={!!errors.followup_fee} helperText={errors.followup_fee?.message} />
+                                <TextField {...field} fullWidth type="text" autoComplete="off" label="Follow-up Fee" error={!!errors.followup_fee} helperText={errors.followup_fee?.message} />
                             )}
                         />
                     </Grid>
@@ -294,7 +295,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="emergency_fee" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth type="text" label="Emergency Fee" error={!!errors.emergency_fee} helperText={errors.emergency_fee?.message} />
+                                <TextField {...field} fullWidth type="text" autoComplete="off" label="Emergency Fee" error={!!errors.emergency_fee} helperText={errors.emergency_fee?.message} />
                             )}
                         />
                     </Grid>
@@ -310,7 +311,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Controller name="role_name" control={control}
                             render={({ field }) => (
-                                <TextField {...field} select fullWidth label="Role" error={!!errors.role_name} helperText={errors.role_name?.message} >
+                                <TextField {...field} select fullWidth label="Role" autoComplete="off" error={!!errors.role_name} helperText={errors.role_name?.message} >
                                     <MenuItem value=""><em>Select Role</em></MenuItem>
                                     {roles.map((role) => (
                                         <MenuItem key={role.uuid} value={role.name} > {role.display_name} </MenuItem>
@@ -327,7 +328,7 @@ const ProviderForm = ({ mode = "add", uuid = null }) => {
                     <Grid size={12}>
                         <Controller name="remarks" control={control}
                             render={({ field }) => (
-                                <TextField {...field} fullWidth multiline rows={4} label="Remarks" error={!!errors.remarks} helperText={errors.remarks?.message} />
+                                <TextField {...field} fullWidth multiline rows={4} autoComplete="off" label="Remarks" error={!!errors.remarks} helperText={errors.remarks?.message} />
                             )}
                         />
                     </Grid>

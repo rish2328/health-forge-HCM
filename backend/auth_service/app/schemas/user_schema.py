@@ -30,6 +30,7 @@ class UpdateInternalUserRequest(BaseModel):
     last_name: str
     email: str
     phone: str | None = None
+    role: str
 
 
 class UserResponse ( BaseModel ):

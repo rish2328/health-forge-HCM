@@ -37,7 +37,7 @@ const ProviderTable = ({ providers = [], loading = false, page = 1, rowsPerPage 
                                     <TableCell> {page * rowsPerPage + index + 1} </TableCell>
 
                                     <TableCell>
-                                        <Typography fontWeight={600}> {provider.title}{" "} {provider.first_name}{" "} {provider.last_name} </Typography>
+                                        <Typography fontWeight={600}> {provider.title}{" "} {provider.first_name}{" "} {provider.middle_name}{" "} {provider.last_name} </Typography>
                                     </TableCell>
 
                                     <TableCell> {provider.department_name || "-"} </TableCell>
@@ -53,9 +53,9 @@ const ProviderTable = ({ providers = [], loading = false, page = 1, rowsPerPage 
                                     </TableCell>
 
                                     <TableCell align="center">
-                                        {/* <IconButton color="primary" onClick={() => onView(provider.uuid) } >
+                                        <IconButton color="primary" onClick={() => onView(provider.uuid) } >
                                             <VisibilityOutlinedIcon />
-                                        </IconButton> */}
+                                        </IconButton>
 
                                         <IconButton color="warning" onClick={() => onEdit(provider.uuid) } >
                                             <EditOutlinedIcon />
