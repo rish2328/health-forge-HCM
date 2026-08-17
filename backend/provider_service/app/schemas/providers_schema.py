@@ -3,6 +3,7 @@ from datetime import date
 from typing import Optional
 from decimal import Decimal
 from pydantic import BaseModel
+from app.schemas.providers_availability_schema import ProviderAvailabilityResponse
 
 
 class CreateProviderSchema ( BaseModel ):
@@ -75,6 +76,7 @@ class ProviderResponse ( BaseModel ):
     role_name: Optional[str] = None
     role_display_name: Optional[str] = None
 
+    availability: list[ProviderAvailabilityResponse] = []
     # addresses: list[PatientAddressResponse] = []
     # contact: list[PatientContactResponse] = []
 

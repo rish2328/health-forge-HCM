@@ -5,24 +5,24 @@ from starlette import status
 from app.services.auth_service import AuthService
 from app.utils.response import success, error
 from common_service.response_schema import ApiResponse
-from app.middleware.rate_limit_middleware import RateLimiter
+# from app.middleware.rate_limit_middleware import RateLimiter
 from app.dependencies.auth_dependency import Auth_Dependency
 
 router = APIRouter ( prefix = "/auth", tags = [ "Auth-Router" ] )
 
 
 # REGISTER USER
-# @router.post ( "/register",
-#                 dependencies = [ Depends( RateLimiter( max_requests = 3, window = 60 ) ) ],
-#                 status_code = status.HTTP_201_CREATED )
-# async def auth_register ( db: DB_Dependencies, auth_req: RegisterRequest ):
-#     auth = AuthService.auth_register_service ( db, auth_req )
-#     return success ( "User has been created successfully", auth )
+@router.post ( "/register",
+                # dependencies = [ Depends( RateLimiter( max_requests = 3, window = 60 ) ) ],
+                status_code = status.HTTP_201_CREATED )
+async def auth_register ( db: DB_Dependencies, auth_req: RegisterRequest ):
+    auth = AuthService.auth_register_service ( db, auth_req )
+    return success ( "User has been created successfully", auth )
 
 
 # LOGIN USER
 @router.post ( "/login",
-                dependencies = [ Depends( RateLimiter( max_requests = 5, window = 60 ) ) ],
+                # dependencies = [ Depends( RateLimiter( max_requests = 5, window = 60 ) ) ],
                 status_code = status.HTTP_201_CREATED,
                 response_model = ApiResponse[TokenResponse] )
 async def auth_login ( db: DB_Dependencies, auth_req: LoginRequest ):

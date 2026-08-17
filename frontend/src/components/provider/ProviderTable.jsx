@@ -23,13 +23,20 @@ const ProviderTable = ({ providers = [], loading = false, page = 1, rowsPerPage 
                     </TableHead>
 
                     <TableBody>
+                        {!loading && providers.length === 0 && (
+                            <TableRow>
+                                <TableCell colSpan={8} align="center" sx={{ py: 8, fontStyle: "italic" }}>
+                                    <Typography variant="h6" color="text.secondary"> No Providers Found </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }} >
+                                        Click "Add Provider" to create your providers.
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        )}
+
                         {loading ? (
                             <TableRow>
                                 <TableCell colSpan={8} align="center"><CircularProgress size={28} /></TableCell>
-                            </TableRow>
-                        ) : providers.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={8} align="center">No providers found.</TableCell>
                             </TableRow>
                         ) : (
                             providers.slice( page * rowsPerPage, page * rowsPerPage + rowsPerPage ).map((provider, index) => (

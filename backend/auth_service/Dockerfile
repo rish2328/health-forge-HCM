@@ -36,6 +36,6 @@ COPY --from=Builder /usr/local /usr/local
 # COPY APPLICATION SOURCE
 COPY . .
 
-EXPOSE 8081
+EXPOSE 8001
 
-CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8081"]
+CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8001"]

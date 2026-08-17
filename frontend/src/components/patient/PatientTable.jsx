@@ -64,7 +64,7 @@ const PatientTable = ({
                         {/* Empty */}
                         {!loading && patients.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={7} align="center" sx={{ py: 8 }}>
+                                <TableCell colSpan={8} align="center" sx={{ py: 8, fontStyle: "italic" }}>
                                     <Typography variant="h6" color="text.secondary"> No Patients Found </Typography>
                                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }} >
                                         Click "Add Patient" to create your first patient.

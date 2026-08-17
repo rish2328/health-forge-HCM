@@ -1,0 +1,23 @@
+from fastapi import APIRouter, HTTPException
+from starlette import status
+from app.schemas.providers_availability_schema import ProviderAvailabilityResponse
+from common_service.response_schema import ApiResponse
+from app.core.database import DB_Dependencies
+from app.dependencies.auth_dependency import Auth_Dependency
+from app.services.providers_availability_service import ProvidersAvailabilityService
+from app.utils.response import success
+
+
+router = APIRouter( prefix = "/provider/availability", tags = [ "Provider Availability Routes" ])
+
+
+@router.get( "/{provider_uuid}", status_code = status.HTTP_200_OK, response_model = ApiResponse[list[ProviderAvailabilityResponse]] )
+async def get_all_availability_by_provider_uuid ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    if not provider_uuid:
+        raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = "Invalid Provider Availability Request!")
+
+    availability = ProvidersAvailabilityService.get_all_availability_by_provider_uuid ( db, provider_uuid )
+    return success ( "Retrieve all Providers Availability successfully!", availability )

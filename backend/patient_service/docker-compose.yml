@@ -11,7 +11,7 @@ services:
             - "./:/app"
             - "../common_service:/common_service"
         ports:
-            - "8082:8002"
+            - "8002:8002"
         restart: always
         env_file:
             - .env
