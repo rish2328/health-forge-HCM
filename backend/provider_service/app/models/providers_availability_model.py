@@ -15,7 +15,7 @@ class WeekDaysEnum ( str, PyEnum ):
 
 
 class ProviderAvailabilityModel (Base):
-    __tablename__ = "provider_availability"
+    __tablename__ = "providers_availability"
 
     id              =   Column ( Integer, primary_key = True, index = True )
 
