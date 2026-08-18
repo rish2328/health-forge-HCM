@@ -21,3 +21,15 @@ async def get_all_availability_by_provider_uuid ( db: DB_Dependencies, auth: Aut
 
     availability = ProvidersAvailabilityService.get_all_availability_by_provider_uuid ( db, provider_uuid )
     return success ( "Retrieve all Providers Availability successfully!", availability )
+
+
+@router.get( "/{provider_uuid}/{availability_id}", status_code = status.HTTP_200_OK, response_model = ApiResponse[ProviderAvailabilityResponse] )
+async def get_availability_by_availability_id ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str, availability_id: int ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    if not provider_uuid:
+        raise HTTPException ( status_code = status.HTTP_400_BAD_REQUEST, detail = "Invalid Provider Availability Request!")
+
+    availability = ProvidersAvailabilityService.get_all_availability_by_provider_uuid ( db, provider_uuid, availability_id )
+    return success ( "Retrieve all Providers Availability successfully!", availability )
