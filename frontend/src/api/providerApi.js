@@ -39,3 +39,9 @@ export const getDepartments = async () => {
 export const getRoles = async () => {
     return securedApi.get(`${AUTH_URL}/role/`);
 };
+
+
+/******************** PROVIDER AVAILABILITY SECTION APIs ********************/
+export const createProviderAvailability = (data) => {
+    return securedApi.post(`${BASE_URL}/provider/availability/`, data);
+};

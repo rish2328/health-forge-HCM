@@ -32,8 +32,6 @@ class UpdateProviderAvailabilitySchema ( BaseModel ):
 class ProviderAvailabilityResponse ( BaseModel ):
     id: int
     provider_id: int
-    provider_uuid: str
-    provider_name: str
     week_days: str
     start_time: time
     end_time: time

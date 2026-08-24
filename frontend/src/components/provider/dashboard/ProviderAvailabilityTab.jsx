@@ -3,114 +3,72 @@ import AddIcon from "@mui/icons-material/Add";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import { createProviderAvailability } from "../../../api/providerApi";
 import { useState } from "react";
 import AvailabilityForm from "./AvailabilityForm";
 import DeleteAvailabilityDialog from "./DeleteAvailabilityDialog";
+import { toast } from "react-toastify";
 
 
 const ProviderAvailabilityTab = ({ provider }) => {
     const [formOpen, setFormOpen] = useState(false);
     const [selectedAvailability, setSelectedAvailability] = useState(null);
+
     const [deleteOpen, setDeleteOpen] = useState(false);
     const [availabilityToDelete, setAvailabilityToDelete] = useState(null);
+    const availabilities = provider?.availabilities || [];
 
-    const availability = [
-        {
-            id: 1,
-            day: "Monday",
-            startTime: "09:00 AM",
-            endTime: "01:00 PM",
-            breakStart: "01:00 PM",
-            breakEnd: "02:00 PM",
-            secondStartTime: "02:00 PM",
-            secondEndTime: "06:00 PM",
-            slotDuration: 30,
-            maxPatients: 20,
-            isAvailable: true,
-        },
-        {
-            id: 2,
-            day: "Tuesday",
-            startTime: "09:00 AM",
-            endTime: "01:00 PM",
-            breakStart: "01:00 PM",
-            breakEnd: "02:00 PM",
-            secondStartTime: "02:00 PM",
-            secondEndTime: "05:00 PM",
-            slotDuration: 30,
-            maxPatients: 18,
-            isAvailable: true,
-        },
-        {
-            id: 3,
-            day: "Wednesday",
-            startTime: "10:00 AM",
-            endTime: "02:00 PM",
-            breakStart: null,
-            breakEnd: null,
-            secondStartTime: null,
-            secondEndTime: null,
-            slotDuration: 30,
-            maxPatients: 15,
-            isAvailable: true,
-        },
-        {
-            id: 4,
-            day: "Thursday",
-            startTime: "09:00 AM",
-            endTime: "01:00 PM",
-            breakStart: "01:00 PM",
-            breakEnd: "02:00 PM",
-            secondStartTime: "02:00 PM",
-            secondEndTime: "06:00 PM",
-            slotDuration: 30,
-            maxPatients: 20,
-            isAvailable: true,
-        },
-        {
-            id: 5,
-            day: "Friday",
-            startTime: "09:00 AM",
-            endTime: "01:00 PM",
-            breakStart: "01:00 PM",
-            breakEnd: "02:00 PM",
-            secondStartTime: "02:00 PM",
-            secondEndTime: "04:00 PM",
-            slotDuration: 30,
-            maxPatients: 15,
-            isAvailable: true,
-        },
-        {
-            id: 6,
-            day: "Saturday",
-            startTime: "09:00 AM",
-            endTime: "01:00 PM",
-            breakStart: null,
-            breakEnd: null,
-            secondStartTime: null,
-            secondEndTime: null,
-            slotDuration: 30,
-            maxPatients: 10,
-            isAvailable: true,
-        },
-        {
-            id: 7,
-            day: "Sunday",
-            isAvailable: false,
-        },
+    const DAYS = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
     ];
 
-    const handleSaveAvailability = (data) => {
-        console.log("Availability Data:", data);
-        setFormOpen(false);
-        setSelectedAvailability(null);
+    /* Create availability map */
+    const availabilityMap = {};
+    availabilities.forEach((item) => { availabilityMap[item.week_days] = item; });
+    
+    /* Format Time */
+    const formatTime = (time) => {
+        if (!time) { return "-"; }
+        const [hours, minutes] = time.split(":");
+        const date = new Date();
+        date.setHours(Number(hours), Number(minutes), 0, 0);
+
+        return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", });
     };
 
+    /* Save Availability */
+    const handleSaveAvailability = async (data) => {
+        try {
+            const payload = { provider_uuid: provider?.uuid, ...data };
+            console.log( "CREATE AVAILABILITY PAYLOAD:", payload );
+            
+            const response = await createProviderAvailability(payload);
+            console.log( "CREATE AVAILABILITY RESPONSE:", response );
+
+            toast.success( response?.message );
+
+            // Close form
+            setFormOpen(false);
+            setSelectedAvailability(null);
+        }
+        catch (error) {
+            console.error( "Create availability failed:", error );
+
+            // Backend error message
+            const message = error?.response?.data?.detail || "Failed to create provider availability.";
+            toast.error(message);
+        }
+    };
+
+    /* Delete Availability */
     const handleDeleteAvailability = () => {
-        console.log(
-            "Delete Availability:",
-            availabilityToDelete
-        );
+        console.log("Delete Availability:", availabilityToDelete);
 
         setDeleteOpen(false);
         setAvailabilityToDelete(null);
@@ -118,107 +76,135 @@ const ProviderAvailabilityTab = ({ provider }) => {
 
     return (
         <Box>
-            {/* Header */}
-            {/* <Stack direction={{ xs: "column", sm: "row" }} sx={{justifyContent:"space-between"}} alignItems={{ xs: "flex-start", sm: "center" }} spacing={2} mb={3} > */}
-            <Stack direction={{ xs: "column", sm: "row" }} sx={{justifyContent:"space-between", alignItems:"center", mb:3}} spacing={2} mb={3} >
+            {/* HEADER */}
+            <Stack direction={{ xs: "column", sm: "row" }} sx={{ justifyContent: "space-between", alignItems: "center", mb: 3 }} spacing={2} >
                 <Box>
-                    <Typography variant="h6" sx={{ fontWeight:700 }}> Provider Availability </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 700 }}> Provider Availability </Typography>
                     <Typography variant="body2" color="text.secondary" mt={0.5}> Manage weekly working hours and appointment slots. </Typography>
                 </Box>
 
-                <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setSelectedAvailability(null); setFormOpen(true); }}> Add Availability </Button>
+                <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setSelectedAvailability(null); setFormOpen(true); }} > Add Availability </Button>
             </Stack>
 
-            {/* Weekly Schedule */}
+            {/* WEEKLY SCHEDULE */}
             <Grid container spacing={2}>
-                {availability.map((schedule) => (
-                    // <Grid key={schedule.id} size={{ xs: 12, md: 4 }} sx={{ display: "flex", }} >
-                    <Grid key={schedule.id} size={{ xs: 12, md: schedule.isAvailable ? 4 : 12, }} sx={{ display: "flex", }} >
-                        <Paper elevation={0} sx={{ p: 1.5, width: "100%", border: "1px solid #E5E7EB", borderRadius: 1 }} >
-                        
-                        {/* Day Header */}
-                        <Stack direction="row" sx={{justifyContent:"space-between", alignItems:"center"}} >
-                            <Stack direction="row" sx={{spacing:1.5, alignItems:"center"}} >
-                                <Box sx={{ width: 42, height: 42, borderRadius: 1, display: "flex", alignItems: "center", justifyContent: "center", bgcolor: schedule.isAvailable ? "primary.50" : "grey.100", }} >
-                                    <AccessTimeOutlinedIcon color={schedule.isAvailable ? "primary" : "disabled"} />
-                                </Box>
+                {DAYS.map((day) => {
+                    const schedule = availabilityMap[day];
 
-                                <Box>
-                                    <Typography fontWeight={700}>{schedule.day}</Typography>
-                                    <Chip label={schedule.isAvailable ? "Available" : "Unavailable"} size="small" color={schedule.isAvailable ? "success" : "default"} sx={{ mt:0.5 }} />
-                                </Box>
-                            </Stack>
+                    /* No availability record for this day */
+                    if (!schedule) {
+                        return (
+                            <Grid key={day} size={{ xs: 12, md: 12 }} sx={{ display: "flex" }} >
+                                <Paper elevation={0} sx={{ p: 1.5, width: "100%", border: "1px solid #E5E7EB", borderRadius: 1 }} >
 
-                            <Stack direction="row" spacing={0.5}>
-                                <IconButton size="small" color="primary" disabled={!schedule.isAvailable} onClick={() => { setSelectedAvailability(schedule); setFormOpen(true); }} >
-                                    <EditOutlinedIcon fontSize="small" />
-                                </IconButton>
+                                    {/* Day Header */}
+                                    <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }} >
+                                        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }} >
+                                            <Box sx={{ width: 42, height: 42, borderRadius: 1, display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "grey.100" }} >
+                                                <AccessTimeOutlinedIcon color="disabled" />
+                                            </Box>
 
-                                <IconButton size="small" color="error" disabled={!schedule.isAvailable} onClick={() => { setAvailabilityToDelete(schedule); setDeleteOpen(true); }} >
-                                    <DeleteOutlineOutlinedIcon fontSize="small" />
-                                </IconButton>
-                            </Stack>
-                        </Stack>
-                        <Divider sx={{ my: 2 }} />
+                                            <Box>
+                                                <Typography fontWeight={700}>{day}</Typography>
+                                                <Chip label="Unavailable" size="small" color="default" sx={{ mt: 0.5 }} />
+                                            </Box>
+                                        </Stack>
 
-                        {schedule.isAvailable ? (<>
-                            {/* Working Hours */}
-                            <Stack spacing={1.5}>
-                                <Stack direction="row" sx={{ justifyContent:"space-between" }} >
-                                    <Typography variant="body2" color="text.secondary"> Working Hours </Typography>
-                                    <Typography variant="body2" fontWeight={600}> {schedule.startTime} {" - "} {schedule.endTime} </Typography>
+                                        <Stack direction="row" spacing={0.5}>
+                                            <IconButton size="small" color="primary" onClick={() => { setSelectedAvailability({ week_days: day, is_available: false }); setFormOpen(true); }} >
+                                                <EditOutlinedIcon fontSize="small" />
+                                            </IconButton>
+                                        </Stack>
+                                    </Stack>
+                                    <Divider sx={{ my: 2 }} />
+
+                                    <Box sx={{ py: 3, textAlign: "center" }} >
+                                        <Typography color="text.secondary" sx={{fontWeight:500}}> Not Available </Typography>
+                                        <Typography variant="body2" color="text.secondary" mt={0.5}> No appointments can be scheduled. </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                        );
+                    }
+
+                    /* Availability exists */
+                    return (
+                        <Grid key={schedule.id} size={{ xs: 12, md: schedule.is_available ? 4 : 12 }} sx={{ display: "flex", }} >
+                            <Paper elevation={0} sx={{ p: 1.5, width: "100%", border: "1px solid #E5E7EB", borderRadius: 1 }} >
+                                {/* DAY HEADER */}
+                                <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }} >
+                                    <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }} >
+                                        <Box sx={{ width: 42, height: 42, borderRadius: 1, display: "flex", alignItems: "center", justifyContent: "center", bgcolor: schedule.is_available ? "primary.50" : "grey.100" }} >
+                                            <AccessTimeOutlinedIcon color={schedule.is_available ? "primary" : "disabled"} />
+                                        </Box>
+
+                                        <Box>
+                                            <Typography sx={{fontWeight:700}}> {schedule.week_days} </Typography>
+                                            <Chip label={ schedule.is_available ? "Available" : "Unavailable" } size="small" color={schedule.is_available ? "success" : "default"} sx={{ mt: 0.5 }} />
+                                        </Box>
+                                    </Stack>
+
+                                    {/* Actions */}
+                                    <Stack direction="row" spacing={0.5}>
+                                        <IconButton size="small" color="primary" disabled={!schedule.is_available} onClick={() => { setSelectedAvailability(schedule); setFormOpen(true); }} >
+                                            <EditOutlinedIcon fontSize="small" />
+                                        </IconButton>
+
+                                        <IconButton size="small" color="error" disabled={!schedule.is_available} onClick={() => { setAvailabilityToDelete(schedule); setDeleteOpen(true); }} >
+                                            <DeleteOutlineOutlinedIcon fontSize="small" />
+                                        </IconButton>
+                                    </Stack>
                                 </Stack>
+                                <Divider sx={{ my: 2 }} />
 
-                                {/* Second Session */}
-                                {schedule.secondStartTime && (
-                                    <Stack direction="row" sx={{ justifyContent:"space-between" }} >
-                                        <Typography variant="body2" color="text.secondary"> Evening Session </Typography>
-                                        <Typography variant="body2" fontWeight={600}> {schedule.secondStartTime} {" - "} {schedule.secondEndTime} </Typography>
-                                    </Stack>
+                                {/* AVAILABLE DAY */}
+                                {schedule.is_available ? (
+                                    <>
+                                        {/* Working Hours */}
+                                        <Stack spacing={1.5}>
+                                            <Stack direction="row" sx={{ justifyContent: "space-between" }} >
+                                                <Typography variant="body2" color="text.secondary"> Working Hours </Typography>
+                                                <Typography variant="body2" fontWeight={600}> {formatTime(schedule.start_time)} {" - "} {formatTime(schedule.end_time)} </Typography>
+                                            </Stack>
+
+                                            {/* Break */}
+                                            {schedule.break_start && schedule.break_end && (
+                                                <Stack direction="row" sx={{ justifyContent: "space-between" }} >
+                                                <Typography variant="body2" color="text.secondary"> Break </Typography>
+
+                                                <Typography variant="body2" fontWeight={600}>
+                                                    {formatTime(schedule.break_start)}
+                                                    {" - "}
+                                                    {formatTime(schedule.break_end)}
+                                                </Typography>
+                                                </Stack>
+                                            )}
+                                        </Stack>
+                                        <Divider sx={{ my: 2 }} />
+
+                                        {/* Slot Information */}
+                                        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ justifyContent: "space-between" }} >
+                                            <Chip label={`Slot: ${schedule.slot_duration} min`} size="small" variant="outlined" />
+                                            <Chip label={`Max Patients: ${schedule.max_patients}`} size="small" variant="outlined" />
+                                        </Stack>
+                                    </>
+                                ) : (
+                                    <Box sx={{ py: 3, textAlign: "center" }} >
+                                        <Typography color="text.secondary" sx={{ fontWeight:500 }}> Not Available </Typography>
+                                        <Typography variant="body2" color="text.secondary" mt={0.5}> No appointments can be scheduled. </Typography>
+                                    </Box>
                                 )}
-
-                                {/* Break */}
-                                {schedule.breakStart && (
-                                    <Stack direction="row" sx={{ justifyContent:"space-between" }} >
-                                        <Typography variant="body2" color="text.secondary"> Break </Typography>
-                                        <Typography variant="body2" fontWeight={600}> {schedule.breakStart} {" - "} {schedule.breakEnd} </Typography>
-                                    </Stack>
-                                )}
-                            </Stack>
-                            <Divider sx={{ my: 2 }} />
-
-                            {/* Slot Information */}
-                            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ justifyContent:"space-between" }} >
-                                <Chip label={`Slot: ${schedule.slotDuration} min`} size="small" variant="outlined" />
-                                <Chip label={`Max Patients: ${schedule.maxPatients}`} size="small" variant="outlined" />
-                            </Stack>
-                        </> ) : (
-                            <Box sx={{ py: 3, textAlign: "center" }} >
-                                <Typography color="text.secondary" fontWeight={500}> Not Available </Typography>
-                                <Typography variant="body2" color="text.secondary" mt={0.5}> No appointments can be scheduled. </Typography>
-                            </Box>
-                        )}
-                        </Paper>
-                    </Grid>
-                ))}
+                            </Paper>
+                        </Grid>
+                    );
+                })}
             </Grid>
 
-            <AvailabilityForm 
-                open={formOpen} 
-                onClose={() => { setFormOpen(false); setSelectedAvailability(null); }} 
-                onSave={handleSaveAvailability} 
-                availability={selectedAvailability} 
-            />
+            {/* AVAILABILITY FORM */}
+            <AvailabilityForm open={formOpen} onClose={() => { setFormOpen(false); setSelectedAvailability(null); }} onSave={handleSaveAvailability} availability={selectedAvailability} />
 
-            <DeleteAvailabilityDialog
-                open={deleteOpen}
-                onClose={() => {
-                    setDeleteOpen(false);
-                    setAvailabilityToDelete(null);
-                }}
-                onConfirm={handleDeleteAvailability}
-                availability={availabilityToDelete}
-            />
+            {/* DELETE DIALOG */}
+            <DeleteAvailabilityDialog open={deleteOpen} onClose={() => { setDeleteOpen(false); setAvailabilityToDelete(null); }} onConfirm={handleDeleteAvailability} availability={availabilityToDelete} />
         </Box>
     );
 };

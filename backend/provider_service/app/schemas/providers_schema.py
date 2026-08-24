@@ -76,9 +76,7 @@ class ProviderResponse ( BaseModel ):
     role_name: Optional[str] = None
     role_display_name: Optional[str] = None
 
-    availability: list[ProviderAvailabilityResponse] = []
-    # addresses: list[PatientAddressResponse] = []
-    # contact: list[PatientContactResponse] = []
+    availabilities: list[ProviderAvailabilityResponse] = []
 
     class Config:
         from_attributes = True

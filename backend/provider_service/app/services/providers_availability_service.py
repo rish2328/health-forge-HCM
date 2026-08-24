@@ -42,6 +42,15 @@ class ProvidersAvailabilityService:
             if not provider:
                 raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Provider not found!" )
 
+            check_availability = db.query(ProviderAvailabilityModel) \
+                                            .filter(ProviderAvailabilityModel.provider_id == provider.id) \
+                                            .filter(ProviderAvailabilityModel.week_days == data["week_days"]) \
+                                            .first()
+
+            if check_availability:
+                raise HTTPException ( status_code = status.HTTP_409_CONFLICT,
+                                            detail = f"The Availability for {data['week_days']}, is already exist. Try with another weekdays!")
+
             availability_data = {
                 "provider_id":      provider.id,
                 "week_days":        data["week_days"],
@@ -51,7 +60,7 @@ class ProvidersAvailabilityService:
                 "max_patients":     data["max_patients"],
                 "break_start":      data["break_start"],
                 "break_end":        data["break_end"],
-                "is_available":     data["is_available"],
+                "is_available":     data["is_available"]
             }
 
             if data.get("remarks"):
