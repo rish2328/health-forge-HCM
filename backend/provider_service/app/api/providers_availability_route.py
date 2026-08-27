@@ -44,8 +44,22 @@ async def create_availability ( db: DB_Dependencies, auth: Auth_Dependency, avai
     return success ( "Provider Availability created successfully", availability )
 
 
+@router.delete( "/{provider_uuid}/{availability_id}", status_code = status.HTTP_200_OK )
+async def delete_availability ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str, availability_id: int ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    availability = ProvidersAvailabilityService.delete_availability( db, provider_uuid, availability_id )
+    return success ( "Provider Availability has been deleted successfully." )
 
 
+@router.put( "/{provider_uuid}/{availability_id}", status_code = status.HTTP_200_OK, response_model = ApiResponse[ProviderAvailabilityResponse] )
+async def update_availability ( db: DB_Dependencies, auth: Auth_Dependency, provider_uuid: str, availability_id: int, availability_data: UpdateProviderAvailabilitySchema ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    availability = ProvidersAvailabilityService.update_availability( db, provider_uuid, availability_id, availability_data )
+    return success ( "Provider Availability has been deleted successfully.", availability )
 
 
 

@@ -17,7 +17,6 @@ class CreateProviderAvailabilitySchema ( BaseModel ):
 
 
 class UpdateProviderAvailabilitySchema ( BaseModel ):
-    provider_uuid: str
     week_days: str
     start_time: time
     end_time: time
