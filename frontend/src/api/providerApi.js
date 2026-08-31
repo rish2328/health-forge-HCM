@@ -45,3 +45,11 @@ export const getRoles = async () => {
 export const createProviderAvailability = (data) => {
     return securedApi.post(`${BASE_URL}/provider/availability/`, data);
 };
+
+export const updateProviderAvailability = (providerUuid, availabilityId, data) => {
+    return securedApi.put(`${BASE_URL}/provider/availability/${providerUuid}/${availabilityId}`, data);
+};
+
+export const deleteProviderAvailability = ( providerUuid, availabilityId ) => {
+    return securedApi.delete(`${BASE_URL}/provider/availability/${providerUuid}/${availabilityId}` );
+};
