@@ -59,7 +59,7 @@ async def update_availability ( db: DB_Dependencies, auth: Auth_Dependency, prov
         raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
 
     availability = ProvidersAvailabilityService.update_availability( db, provider_uuid, availability_id, availability_data )
-    return success ( "Provider Availability has been deleted successfully.", availability )
+    return success ( "Provider Availability has been updated successfully.", availability )
 
 
 

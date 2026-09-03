@@ -1,15 +1,16 @@
+from starlette import status
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
-from starlette import status
-from app.models.providers_availability_model import ProviderAvailabilityModel
 from app.models.providers_model import ProvidersModel
+from app.helpers.provider_helper import ProviderHelper
+from app.models.providers_availability_model import ProviderAvailabilityModel
 
 
 class ProvidersAvailabilityService:
 
     @staticmethod
     def get_all_availability_by_provider_uuid ( db, provider_uuid ):
-        provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == provider_uuid).first()
+        provider = ProviderHelper.check_provider_exists(db, provider_uuid)
         if not provider:
             raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Provider not found!" )
 
@@ -22,7 +23,7 @@ class ProvidersAvailabilityService:
 
     @staticmethod
     def get_availability_by_availability_id ( db, provider_uuid, availability_id ):
-        provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == provider_uuid).first()
+        provider = ProviderHelper.check_provider_exists(db, provider_uuid)
         if not provider:
             raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Provider not found!" )
 
@@ -38,7 +39,7 @@ class ProvidersAvailabilityService:
         try:
             data = availability_req.dict()
 
-            provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == data["provider_uuid"]).first()
+            provider = ProviderHelper.check_provider_exists(db, data["provider_uuid"])
             if not provider:
                 raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Provider not found!" )
 
@@ -85,7 +86,7 @@ class ProvidersAvailabilityService:
     @staticmethod
     def delete_availability ( db, provider_uuid, availability_id ):
         try:
-            provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == provider_uuid).first()
+            provider = ProviderHelper.check_provider_exists(db, provider_uuid)
             if not provider:
                 raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Provider not found!" )
 
@@ -116,7 +117,7 @@ class ProvidersAvailabilityService:
         try:
             data = availability_req.dict()
 
-            provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == provider_uuid).first()
+            provider = ProviderHelper.check_provider_exists(db, provider_uuid)
             if not provider:
                 raise HTTPException ( status_code = status.HTTP_404_NOT_FOUND, detail = "Provider not found!" )
 

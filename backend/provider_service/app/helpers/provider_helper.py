@@ -1,4 +1,6 @@
 import requests
+from fastapi import HTTPException
+from starlette import status
 from app.models.providers_model import ProvidersModel
 from app.schemas.providers_schema import ProviderResponse
 from common_service.config import commonSettings
@@ -20,8 +22,7 @@ class ProviderHelper:
 
     @staticmethod
     def get_provider_by_provider_uuid(db, provider_uuid, token):
-        provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == provider_uuid).first()
-
+        provider = ProviderHelper.check_provider_exists(db, provider_uuid)
         if provider:
             response = requests.get(
                 f"{commonSettings.AUTH_SERVICE_URL}/internal/user/{provider.auth_user_uuid}",
@@ -45,4 +46,10 @@ class ProviderHelper:
             provider.role_name = role["name"] if role else None
             provider.role_display_name = role["display_name"] if role else None
 
+        return provider
+
+
+    @staticmethod
+    def check_provider_exists(db, provider_uuid):
+        provider = db.query(ProvidersModel).filter(ProvidersModel.uuid == provider_uuid).first()
         return provider

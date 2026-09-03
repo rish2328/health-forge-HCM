@@ -1,8 +1,9 @@
 from uuid import UUID
 from datetime import date
-from typing import Optional
 from decimal import Decimal
+from typing import Optional
 from pydantic import BaseModel
+from app.schemas.providers_specialty_schema import ProviderSpecialtyResponse
 from app.schemas.providers_availability_schema import ProviderAvailabilityResponse
 
 
@@ -77,6 +78,7 @@ class ProviderResponse ( BaseModel ):
     role_display_name: Optional[str] = None
 
     availabilities: list[ProviderAvailabilityResponse] = []
+    specialties: list[ProviderSpecialtyResponse] = []
 
     class Config:
         from_attributes = True
