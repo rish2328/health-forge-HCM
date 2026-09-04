@@ -12,7 +12,7 @@ class PatientService:
 
     # GET ALL PATIENT
     @staticmethod
-    def get_all_patients ( db ):
+    def get_all_patients(db, limit_count ):
         all_patients = ( db.query(PatientModel)
                         .options(
                             selectinload(PatientModel.addresses),
@@ -22,8 +22,17 @@ class PatientService:
                             selectinload(PatientModel.insurances),
                             selectinload(PatientModel.notes)
                         )
-                         .order_by(PatientModel.id.desc())
-                        .all() )
+                         .order_by(PatientModel.id.desc()) )
+
+        if limit_count != "all":
+            try:
+                limit_count = int(limit_count)
+                if limit_count > 0:
+                    all_patients = all_patients.limit(limit_count)
+            except ValueError:
+                pass
+
+        all_patients = all_patients.all()
         return all_patients
 
 
@@ -177,5 +186,9 @@ class PatientService:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(ex))
 
 
-
+    # PATIENT STATS COUNT FOR FRONTEND DASHBOARD
+    @staticmethod
+    def get_patient_stat_count ( db ):
+        patient_count = db.query(PatientModel).filter(PatientModel.status == True).count()
+        return patient_count
 

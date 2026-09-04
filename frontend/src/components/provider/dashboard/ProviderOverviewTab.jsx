@@ -17,7 +17,6 @@ const Section = ({ title, children }) => (
 );
 
 const ProviderOverviewTab = ({ provider }) => {
-    console.log('check-ProviderOverviewTab', provider);
     return (
         <>
             {/* =======================================================

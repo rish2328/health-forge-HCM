@@ -18,38 +18,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
 
-const patients = [
-    {
-        id: 1,
-        name: "John Doe",
-        gender: "Male",
-        phone: "9876543210",
-        status: "Active",
-    },
-    {
-        id: 2,
-        name: "Emma Watson",
-        gender: "Female",
-        phone: "9876543211",
-        status: "Active",
-    },
-    {
-        id: 3,
-        name: "David Smith",
-        gender: "Male",
-        phone: "9876543212",
-        status: "Inactive",
-    },
-    {
-        id: 4,
-        name: "Olivia Brown",
-        gender: "Female",
-        phone: "9876543213",
-        status: "Active",
-    },
-];
-
-const RecentPatients = () => {
+const RecentPatients = ({ patients = [] }) => {
     return (
         <Paper sx={{ borderRadius: 4, p: 3, height: "100%", border: "1px solid #EEF2F7", boxShadow: "0 8px 25px rgba(15,23,42,.06)" }} >
         {/* Header */}
@@ -67,10 +36,9 @@ const RecentPatients = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: 700 }}>Patient</TableCell>
+                            <TableCell sx={{ fontWeight: 700 }}> Email </TableCell>
                             <TableCell sx={{ fontWeight: 700 }}> Phone </TableCell>
                             <TableCell sx={{ fontWeight: 700 }}> Gender </TableCell>
-                            <TableCell sx={{ fontWeight: 700 }}> Status </TableCell>
-                            <TableCell align="center" sx={{ fontWeight: 700 }} > Action </TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -80,27 +48,19 @@ const RecentPatients = () => {
                                 {/* Patient */}
                                 <TableCell>
                                     <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, minWidth: 170, }} >
-                                        <Avatar sx={{ width: 42, height: 42, bgcolor: "#2563EB", fontWeight: 700 }} > {patient.name.charAt(0)} </Avatar>
-                                        <Typography fontWeight={600} sx={{ whiteSpace: "nowrap" }} > {patient.name} </Typography>
+                                        <Avatar sx={{ width: 42, height: 42, bgcolor: "#2563EB", fontWeight: 700 }} > {patient.first_name.charAt(0)} </Avatar>
+                                        <Typography fontWeight={600} sx={{ whiteSpace: "nowrap" }} > {patient.first_name}{" "}{patient.last_name} </Typography>
                                     </Box>
                                 </TableCell>
+
+                                {/* Email */}
+                                <TableCell> {patient.email} </TableCell>
 
                                 {/* Phone Number */}
                                 <TableCell> {patient.phone} </TableCell>
 
                                 {/* Gender */}
                                 <TableCell>{patient.gender}</TableCell>
-
-                                {/* Status */}
-                                <TableCell>
-                                    <Chip label={patient.status} color={patient.status === "Active" ? "success" : "error"} size="small" />
-                                </TableCell>
-
-                                {/* Action */}
-                                <TableCell align="center">
-                                    <IconButton color="primary" size="small"><VisibilityRoundedIcon /></IconButton>
-                                    <IconButton color="warning" size="small"><EditRoundedIcon /></IconButton>
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

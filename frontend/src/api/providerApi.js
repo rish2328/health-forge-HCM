@@ -53,3 +53,17 @@ export const updateProviderAvailability = (providerUuid, availabilityId, data) =
 export const deleteProviderAvailability = ( providerUuid, availabilityId ) => {
     return securedApi.delete(`${BASE_URL}/provider/availability/${providerUuid}/${availabilityId}` );
 };
+
+
+/******************** PROVIDER SPECIALTY SECTION APIs ********************/
+export const createProviderSpecialty = (data) => {
+    return securedApi.post(`${BASE_URL}/provider/specialty/`, data);
+};
+
+export const updateProviderSpecialty = (providerUuid, specialtyId, data) => {
+    return securedApi.put(`${BASE_URL}/provider/specialty/${providerUuid}/${specialtyId}`, data);
+};
+
+export const deleteProviderSpecialty = ( providerUuid, specialtyId ) => {
+    return securedApi.delete(`${BASE_URL}/provider/specialty/${providerUuid}/${specialtyId}` );
+};

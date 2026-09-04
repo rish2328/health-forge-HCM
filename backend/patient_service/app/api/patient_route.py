@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from starlette import status
 from app.core.database import DB_Dependencies
 from common_service.response_schema import ApiResponse
@@ -11,12 +11,22 @@ router = APIRouter ( prefix = "/patient", tags = [ "Patient Routes" ] )
 
 # GET ALL PATIENTS
 @router.get ( "/", status_code = status.HTTP_200_OK, response_model = ApiResponse[list[PatientResponse]] )
-async def get_all_patients ( db: DB_Dependencies, auth: Auth_Dependency ):
+async def get_all_patients ( db: DB_Dependencies, auth: Auth_Dependency, limit_count: str = Query("all") ):
     if not auth:
         raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
 
-    patient = PatientService.get_all_patients( db )
+    patient = PatientService.get_all_patients( db, limit_count )
     return success ( "Retrieve all Patient successfully!", patient )
+
+
+# PATIENT STATS COUNT FOR FRONTEND DASHBOARD
+@router.get("/count", status_code = status.HTTP_200_OK )
+async def get_patient_stat_count ( db: DB_Dependencies, auth: Auth_Dependency ):
+    if not auth:
+        raise HTTPException ( status_code = status.HTTP_401_UNAUTHORIZED, detail = "Unauthorized access!" )
+
+    patient_count = PatientService.get_patient_stat_count( db )
+    return patient_count
 
 
 # GET PATIENT BY PATIENT UUID
@@ -57,3 +67,4 @@ async def update_patient ( db: DB_Dependencies, auth: Auth_Dependency, patient_u
 
     patient = PatientService.update_patient ( db, patient_uuid, patient_data, auth["token"] )
     return success("Patient has been updated successfully", patient)
+

@@ -19,7 +19,6 @@ const ProviderTabs = ({ provider, refreshProvider }) => {
                 <Tab label="Overview" />
                 <Tab label="Availability" />
                 <Tab label="Specialties" />
-                <Tab label="Documents" />
             </Tabs>
 
             <Box sx={{ p: 3 }}>

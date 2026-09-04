@@ -8,6 +8,16 @@ export const getPatients = () => {
     return securedApi.get(`${BASE_URL}/patient/`);
 };
 
+// PATIENTS COUNT FOR DASHBOARD
+export const getPatientCount = () => {
+    return securedApi.get(`${BASE_URL}/patient/count`);
+};
+
+// RECENT PATIENTS LIST FOR DASHBOARD
+export const getRecentPatients = () => {
+    return securedApi.get(`${BASE_URL}/patient/?limit_count=3`);
+};
+
 // CREATE PATIENT
 export const createPatient = (data) => {
     return securedApi.post(`${BASE_URL}/patient/`, data);
